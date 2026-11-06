@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Маршруты по городам</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" href="icon-32.png" sizes="32x32" type="image/png">
+<style>
+:root{--bg:#11343d;--card:#171e30;--tx:#eef1f8;--mut:#8c93a8;--acc:#7c9cff;--acc2:#c98cff;--ok:#4ec9a5;--line:#232a3a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;background:rgba(24, 1, 34, 0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);z-index:20}
+header .wrap{display:flex;justify-content:space-between;align-items:center;height:60px}
+.logo{font-weight:700;text-decoration:none;color:var(--tx)}
+.btn{padding:12px 28px;border-radius:100px;background:linear-gradient(90deg,var(--acc),var(--acc2));color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;display:inline-block;border:0;cursor:pointer;font-family:inherit;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(124,156,255,.4)}
+.hero{text-align:center;padding:80px 0 60px;background:radial-gradient(60% 60% at 50% 0%,rgba(124,156,255,.16),transparent 70%)}
+h1{font-size:clamp(32px,6vw,56px);line-height:1.08;margin-bottom:18px;letter-spacing:-.03em}
+h1 span{background:linear-gradient(100deg,#7c9cff,#c98cff,#4ec9a5);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:#a9b0c4;max-width:580px;margin:0 auto 28px}
+section{padding:60px 0}
+h2{font-size:30px;text-align:center;margin-bottom:8px}
+.sub{text-align:center;color:var(--mut);margin-bottom:36px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;cursor:pointer;text-align:left;color:var(--tx);font-family:inherit;padding:0;transition:transform .3s,border-color .3s,box-shadow .3s}
+.card:hover{transform:translateY(-8px);border-color:rgba(124,156,255,.4);box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.card .art{height:130px;display:flex;align-items:flex-end;padding:16px;font-size:20px;font-weight:700}
+.card .body{padding:18px}
+.card p{color:var(--mut);font-size:14.5px;margin-bottom:14px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font-size:12px;padding:4px 10px;border-radius:100px;border:1px solid var(--line);color:#b8c0d4}
+.foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:12px;font-size:14px;color:var(--mut)}
+.more-wrap{display:flex;justify-content:center;margin-top:36px}
+.more-btn{padding:14px 34px;border-radius:100px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--tx);font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+.more-btn:hover{background:rgba(124,156,255,.12);border-color:rgba(124,156,255,.4);transform:translateY(-2px)}
+.more-btn .cnt{display:inline-block;min-width:20px;margin-left:6px;color:#fff;background:rgba(124,156,255,.35);border-radius:100px;padding:1px 8px;font-size:13px}
+.card.hidden{display:none}
+.card.appear{animation:appear .45s ease-out both}
+@keyframes appear{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.price{font-weight:700;color:var(--tx);font-size:15px}
+
+.overlay{position:fixed;inset:0;background:rgba(5,7,11,.78);backdrop-filter:blur(6px);display:none;align-items:flex-start;justify-content:center;padding:40px 16px;z-index:100;overflow-y:auto}
+.overlay.open{display:flex}
+.modal{background:#12161f;border:1px solid var(--line);border-radius:22px;max-width:640px;width:100%;overflow:hidden;animation:rise .3s ease-out}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.modal .head{padding:26px 28px 10px;position:relative}
+.modal .head h3{font-size:26px;margin-bottom:4px;letter-spacing:-.02em;padding-right:44px}
+.modal .head .meta{color:var(--mut);font-size:14px}
+.close{position:absolute;top:18px;right:18px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);border:0;color:#fff;font-size:20px;cursor:pointer;line-height:1;font-family:inherit}
+.close:hover{background:rgba(255,255,255,.2)}
+.var-list{padding:12px 28px 28px;display:flex;flex-direction:column;gap:14px}
+.var{background:#171c27;border:1px solid var(--line);border-radius:16px;padding:18px;transition:border-color .25s,transform .25s}
+.var:hover{border-color:rgba(124,156,255,.45);transform:translateY(-2px)}
+.var-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:10px}
+.var-top h4{font-size:17px;margin:0 0 4px;letter-spacing:-.01em}
+.var-sub{font-size:13px;color:var(--mut)}
+.var-num{font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1;background:linear-gradient(90deg,#7c9cff,#c98cff);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+.var-num small{display:block;font-size:11px;font-weight:400;color:var(--mut);-webkit-text-fill-color:var(--mut);letter-spacing:0;margin-top:2px;text-align:right}
+.inc{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.inc span{background:rgba(78,201,165,.1);border:1px solid rgba(78,201,165,.3);color:#9fe8d0;font-size:12.5px;padding:5px 12px;border-radius:100px}
+.var .about{color:#c3cadb;font-size:14px;line-height:1.55;margin-bottom:14px}
+.var .btn{width:100%;text-align:center;padding:12px;font-size:14.5px}
+footer{text-align:center;color:var(--mut);padding:38px 0;font-size:14px}
+body.locked{overflow:hidden}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="#" class="logo">🗺️ Маршруты</a>
+    <div class="contact">
+  <p>Связаться:</p>
+  <a class="phone" href="tel:+79674697215">+7 967 469-72-15</a>
+</div>
+
+
+
+    <span style="display:flex;gap:8px">
+  <a class="btn" href="https://t.me/Ggeeeeeer">Заказать в Telegram</a>
+
+
+
+  <a class="btn" href="https://max.ru/u/f9LHodD0cOJy_Cv_Sq4Q0EkIPYHQ8mHcrpac-SOiPwfdPv_yPWw21J4kkuw" style="background:rgba(255,255,255,.08);border:1px solid #2b3346">Заказать в MAX</a>
+</span>
+    </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>Маршруты по городам, в которых<br><span>интересно</span></h1>
+    <h2>Маршрут под тебя.</h2> 
+    <h3>Привет!
+
+Если вы планируете путешествие, у вас уже есть план поездки, но вы не знаете, что посмотреть в городе,где красиво погулять, вы можете ознакомить с городами ниже,и выбрать подходящий. В маршрутах содержется, красивые исторические здания, легенды города, интересная история здания. Есливам нужен особый маршрут, в каком то дркгом городе,с вашими предпочтениями. Я составлю подробный маршрут в Google картах, учту ваши пожелания.
+
+Мы можем обсудить все детали в личных сообщениях. Я внимательно выслушаю ваши предложения и условия, чтобы сделать вашу поездку максимально приятной и насыщенной. 
+
+Желаю удачи </h3>
+    <a class="btn" href="#routes" id="seeAllBtn">Смотреть города →</a>
+  </div>
+</div>
+
+<section id="routes">
+  <div class="wrap">
+    <h2>Города</h2>
+    <p class="sub">Нажми на карточку, чтобы выбрать маршрут. Также, здесь вы можешь подать заявку, что бы заказать маршрут под себя,уточнить что вам точно нужно. </p>
+    <div class="cards" id="grid"></div>
+    <div class="more-wrap">
+      <button class="more-btn" id="moreBtn"><span id="moreTxt">Показать ещё города</span><span class="cnt" id="moreCnt"></span></button>
+    </div>
+  </div>
+</section>
+
+<footer>Маршруты по городам, собранные вручную</footer>
+
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="head">
+      <button class="close" id="closeBtn" aria-label="Закрыть">&times;</button>
+      <h3 id="mTitle"></h3>
+      <div class="meta" id="mMeta"></div>
+    </div>
+    <div class="var-list" id="mList"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   ВСЯ ИНФА ТУТ. Меняй только текст в кавычках.
+   У каждого города есть список вариантов маршрута (variants).
+   В варианте:
+     title    — название маршрута
+     points   — сколько точек (число)
+     price    — цена
+     time     — длительность
+     includes — что входит (каждый пункт в кавычках)
+     about    — пара строк описания
+   ============================================================ */
+const ROUTES = [
+  {
+    name: "Казань",
+    grad: "linear-gradient(135deg,#2b3a6b,#4a5fa8)",
+    tags: ["История","Еда","Вода"],
+    short: "От Кремля вниз через старый город к набережной — без очередей и ловушек.",
+    variants: [
+      {
+        title: "Казань за день",
+        points: 20,
+        price: "250 руб.",
+        time: "2–4 ч",
+        includes: ["Туалеты по пути","Вкусные кафе","Места, где сесть","Красивые виды"],
+        about: "Этот маршрут идеально подойдет для тех, кто оказался в столице Татарстана проездом, приехал в короткую командировку или хочет составить первое, самое полное впечатление о городе. Он рассчитан на людей со средней физической подготовкой, которые любят много ходить пешком, ценят историю, но не хотят тратить время на очереди в музеи внутри зданий."
+      },
+      {
+        title: "Старая Казань",
+        points: 12,
+        price: "200 руб.",
+        time: "2–3 ч",
+        includes: ["Тихие улицы","Старые дома","Кофе"],
+        about: "понятие «Старая Казань» — это не просто географическая локация на карте, а многослойный исторический пирог, где эпохи наслаиваются друг на друга. Если туристическая Казань — это парадные фасады и вылизанные набережные, то Старая Казань — это живые камни,"
+      },
+      {
+        title: "Короткая Казань",
+        points: 5,
+        price: "100 руб.",
+        time: "1 ч",
+        includes: ["Только главное","Без спешки","Одно кафе"],
+        about: "для тех, кто в городе проездом или на выходные.Суть: путь от древней крепости к современной набережной через купеческую слободу"
+      },
+      {
+        title: "Казань по старым домикам",
+        points: 12,
+        price: "150 руб.",
+        time: "1 ч",
+        includes: ["Самое интересное","Без спешки","Интересные истории"],
+        about: "Если парадная Казань — это белокаменный Кремль и стеклянные небоскребы, то «другая», тихая Казань спрятана в резных наличниках, скрипучих половицах и яркой краске деревянных особняков. Это маршрут для тех, кто хочет увидеть город не как турист, а как краевед: почувствовать запах стружки, рассмотреть узоры в стиле поволжской глухой резьбы и понять, как жили купцы, профессора и поэты сто лет назад."
+      }
+    ]
+  },
+  {
+    name: "Москва",
+    grad: "linear-gradient(135deg,#5b2b3a,#a84a5f)",
+    tags: ["Архитектура","Дворы","Метро"],
+    short: "Не Красная площадь, а переулки между ней: доходные дома, дворы-колодцы, старые вывески.",
+ variants: [
+      {
+        title: "Москва за день",
+        points: 25,
+        price: "400 руб.",
+        time: "5–6 ч",
+        includes: ["Вкусные кафе","Туалеты по пути","Тихие дворы"],
+        about: "Это идеальный маршрут для первого знакомства со столицей, который покажет, как многолика Москва.Вы увидите главные символы России, узнаете тайны старинных улиц и почувствуете ритм современного мегаполиса всего за одну прогулку"
+      },
+      {
+        title: "Дворы и переулки",
+        points: 14,
+        price: "200 руб.",
+        time: "3 ч",
+        includes: ["Дворы-колодцы","Старые вывески","Кофе"],
+        about: "Дворы и переулки: обратная сторона Москвы. Для тех, кто уже видел Красную площадь и хочет узнать, как на самом деле живет и дышит город. Мы уйдем с шумных проспектов в тишину арбатских и тверских подворотен. Это прогулка по «изнанке» столицы, где за парадными фасадами скрываются доходные дома, купеческие палаты и истории великих жильцов."
+      },
+      {
+        title: "Короткая Москва",
+        points: 6,
+        price: "150 руб.",
+        time: "1–2 ч",
+        includes: ["Только главное","Без метро","Одно кафе"],
+        about: "Откройте для себя магию Москвы — каждый уголок здесь дышит историей и вдохновляет.Короткий маршрут подарит яркие эмоции и позволит прочувствовать неповторимый ритм столицы."
+      }
+    ]
+  },
+  {
+    name: "Санкт-Петербург",
+    grad: "linear-gradient(135deg,#1f4b52,#3a8b96)",
+    tags: ["Набережные","Дворы","Кофе"],
+    short: "Крыши, дворы и вода. Питер как город, в котором живут, а не открытка.",
+    variants: [
+      {
+        title: "Питер за день",
+        points: 18,
+        price: "350 руб.",
+        time: "5–7 ч",
+        includes: ["Кофе по пути","Виды на воду","Места отдохнуть"],
+        about: "Прогуляйтесь по Санкт‑Петербургу — город раскроет перед вами свои тайны и очарует атмосферой.За один день вы успеете проникнуться духом северной столицы и поймать её особенный ритм.Мосты, набережные и величественные фасады останутся в памяти надолго.",
+      },
+      {
+        title: "Дворы и вода",
+        points: 11,
+        price: "250 руб.",
+        time: "3 ч",
+        includes: ["Дворы-колодцы","Набережные","Кофе"],
+        about: "Прогуляйтесь по потайным дворам Петербурга — здесь прячется особая, почти камерная сторона города. Вода — в каналах, отражениях и лёгком ветре с Невы — добавляет маршруту неповторимую поэтичность. Этот путь покажет Петербург не с парадного фасада, а изнутри — тихий, загадочный и бесконечно обаятельный."
+      },
+      {
+        title: "Короткий Питер",
+        points: 5,
+        price: "150 руб.",
+        time: "1 ч",
+        includes: ["Только главное","Без спешки","Одно кафе"],
+        about: "Короткий маршрут по Петербургу — идеальный способ познакомиться с городом, не теряя ни минуты. Вы пройдёте по знаковым местам и почувствуете особую атмосферу северной столицы. Всего несколько часов — и Петербург откроется вам с новой стороны."
+      }
+    ]
+  },
+  {
+    name: "Нижний Новгород",
+    grad: "linear-gradient(135deg,#4a3a1f,#96803a)",
+    tags: ["Виды","Ступени","Закат"],
+    short: "От кремля по Чкаловской лестнице вниз, к реке, и обратно наверх — на закат.",
+    variants: [
+      {
+        title: "Нижний за день",
+        points: 15,
+        price: "300 руб.",
+        time: "4–5 ч",
+        includes: ["Лучший вид на закат","Кафе","Скамейки для отдыха"],
+        about: "Погрузитесь в атмосферу Нижнего за один день! Прогуляйтесь по пешеходной Большой Покровской с её исторической застройкой и забавными скульптурами, ощутите масштаб в Нижегородском кремле."
+      },
+      {
+        title: "Лестницы и виды",
+        points: 9,
+        price: "250 руб.",
+        time: "2–3 ч",
+        includes: ["Смотровые точки","Ступени","Кофе"],
+        about: "Этот маршрут про перепады высот и простор: ступени ведут от старинных улиц к бескрайним речным видам, и каждый поворот дарит новый ракурс на город. Вы увидите, как встречаются Ока и Волга — один из самых узнаваемых городских пейзажей."
+      },
+      {
+        title: "Короткий Нижний",
+        points: 4,
+        price: "100 руб.",
+        time: "1 ч",
+        includes: ["Только главное","Без подъёмов","Одно кафе"],
+        about: "Откройте для себя Нижний Новгород за один день — город, где история соседствует с потрясающими видами. Пройдитесь по уютным улочкам, загляните в Кремль и полюбуйтесь панорамами с набережных — всё самое главное уместится в короткой прогулке."
+      }
+    ]
+  },
+  {
+    name: "Екатеринбург",
+    grad: "linear-gradient(135deg,#3a2b4a,#6b4a96)",
+    tags: ["Конструктивизм","Стрит-арт"],
+    short: "Город конструктивизма и граффити: кварталы, которых нет в путеводителях.",
+    variants: [
+      {
+        title: "Екатеринбург за день",
+        points: 14,
+        price: "250 руб.",
+        time: "4–5 ч",
+        includes: ["Стрит-арт","Кофе","Тихие дворики"],
+        about: "Проведите день в Екатеринбурге — городе строгих линий и смелых идей. Конструктивистские ансамбли расскажут о времени больших перемен, а городские панорамы на фоне индустриального пейзажа добавят контраста. Всего несколько часов — и вы увидите, как архитектура становится голосом эпохи."
+      },
+      {
+        title: "Конструктивизм",
+        points: 8,
+        price: "200 руб.",
+        time: "2–3 ч",
+        includes: ["Архитектура","Муралы","Кофе"],
+        about: "Екатеринбург — город, где прошлое не прячется в музеях, а живёт прямо на улицах. За один день вы почувствуете его индустриальную энергию и увидите, как смелые идеи 1920–1930‑х годов превратились в целые городские ансамбли. Конструктивизм здесь не просто стиль — это история про людей, которые хотели строить будущее, и их след до сих пор читается в строгих линиях домов, широких дворах и ритме кварталов.."
+      },
+      {
+        title: "Короткий Екатеринбург",
+        points: 4,
+        price: "70 руб.",
+        time: "1 ч",
+        includes: ["Только главное","Без спешки","Одно кафе"],
+        about: "Один день в Екатеринбурге: маршрут по главным памятникам конструктивизма, чтобы увидеть город с неожиданной стороны."
+      }
+    ]
+  },
+  {
+    name: "Любой город-заказажи со своими предпочтениями",
+    grad: "linear-gradient(135deg,#1f4a3a,#3a966b)",
+    tags: ["Под запрос"],
+    short: "Назови город — соберу маршрут по картам, панорамам и отзывам местных.",
+    variants: [
+      {
+        title: "Маршрут под запрос",
+        points: "4-30",
+        price: "от 300 руб.",
+        time: "по запросу",
+        includes: ["Точки под твои интересы","Кафе и отдых","Туалеты по пути","Правки бесплатно"],
+        about: "Напиши мне в личные сообщения, мы вместе решим что бы вы хотели на своем пути, я составлю маршрут с вашими предпочтениями, и всем чем только пожелаете."
+      }
+    ]
+  },
+  {
+    name: "Сочи",
+    grad: "linear-gradient(135deg,#0f4a52,#2a9aa8)",
+    tags: ["Море","Горы","Еда"],
+    short: "Не набережная с толпой, а подъём к смотровым и тихие переулки между морем и горами.",
+    variants: [
+      {
+        title: "Сочи за день",
+        points: 16,
+        price: "300 руб.",
+        time: "4–6 ч",
+        includes: ["Выход к морю","Смотровые площадки","Кафе с видом","Места, где сесть"],
+        about: "Сочи за один день — это море, пальмы и панорамы. Прогуляйтесь у Морского порта, загляните в Дендрарий, чтобы увидеть экзотические растения и виды с канатной дороги, а вечер встретьте в Олимпийском парке — там красиво играет шоу поющих фонтанов."
+      },
+      {
+        title: "Море и виды",
+        points: 9,
+        price: "200 руб.",
+        time: "2–3 ч",
+        includes: ["Смотровые","Набережная","Кофе"],
+        about: "Сочи за день: море, панорамы и яркие виды. Прогуляйтесь у Морского порта, поднимитесь на канатной дороге в Дендрарий — оттуда видно и море, и горы. Завершите вечер в Олимпийском парке: набережная и шоу поющих фонтанов подарят идеальные кадры и атмосферу южного города."
+      },
+      {
+        title: "Короткий Сочи",
+        points: 4,
+        price: "100 руб.",
+        time: "1 ч",
+        includes: ["Только море","Без подъёмов","Одно кафе"],
+        about: "очи — город, где море встречается с горами. Панорамы, южный колорит и яркие виды — всё в одном дне. От морского бриза до вечерних огней Олимпийского парка — Сочи запомнится надолго"
+      }
+    ]
+  },
+  {
+    name: "Калининград",
+    grad: "linear-gradient(135deg,#5a3a1a,#b07a2a)",
+    tags: ["Кирпич","История","Улицы"],
+    short: "Город с другой историей: немецкая кирпичная архитектура, тихие районы, много зелени.",
+    variants: [
+      {
+        title: "Калининград за день",
+        points: 14,
+        price: "200 руб.",
+        time: "2-3 ч",
+        includes: ["Старые кварталы","Кофе по пути","Тенистые улицы"],
+        about: "Успейте увидеть всё главное за один день: от средневековых ворот до тенистых улочек с европейской архитектурой. Маршрут с комфортным темпом, остановками на кофе и фотографии — идеален для первого знакомства с городом."
+      },
+      {
+        title: "Кирпич и история",
+        points: 8,
+        price: "150 руб.",
+        time: "2 ч",
+        includes: ["Архитектура","История","Кофе"],
+        about: "Погружение в кёнигсбергское прошлое через призму красного кирпича и готических деталей. Узнаете, как сохранилась довоенная архитектура и где искать аутентичные кофейни с историей."
+      },
+      {
+        title: "Короткий Калининград",
+        points: 4,
+        price: "70 руб.",
+        time: "1 ч",
+        includes: ["Только главное","Без спешки","Одно кафе"],
+        about: "Экспресс-прогулка по самым Instagram-ным точкам города без спешки и лишних километров. Идеально, если у вас мало времени, но хочется увидеть Калининград «вкусно» и с комфортом."
+      }
+    ]
+  },
+  {
+    name: "Владивосток",
+    grad: "linear-gradient(135deg,#1f3550,#4878a8)",
+    tags: ["Сопки","Море","Виды"],
+    short: "Город на сопках: подъёмы, лестницы, вид на бухту и мосты — и всё это пешком.",
+    variants: [
+      {
+        title: "Владивосток за день",
+        points: 15,
+        price: "200 руб.",
+        time: "2-3 ч",
+        includes: ["Смотровые на сопках","Выход к воде","Кафе"],
+        about: "Пятнадцать локаций, 2-3 часа в движении. Это экспресс-знакомство с городом, когда хочется охватить всё сразу: от центра до видов."
+      },
+      {
+        title: "Сопки и мосты",
+        points: 9,
+        price: "150 руб.",
+        time: "2 ч",
+        includes: ["Смотровые","Виды на бухту","Кофе"],
+        about: "Девять точек и полный масштаб города с высоты. Для тех, кто хочет за одну прогулку понять Владивосток через его сопки и мосты."
+      },
+      {
+        title: "Короткий Владивосток",
+        points: 4,
+        price: "70 руб.",
+        time: "1 ч",
+        includes: ["Только главное","Без подъёмов","Одно кафе"],
+        about: "Четыре точки, часа два — и ты уже в курсе главного. Без спешки и утомительных переходов. Отличный вариант для начала путешествия или лёгкой вечерней прогулки."
+      }
+    ]
+  },
+  {
+    name: "Новосибирск",
+    grad: "linear-gradient(135deg,#4a2038,#a03a6e)",
+    tags: ["Модернизм","Парки","Река"],
+    short: "Столица Сибири: широкие проспекты, конструктивизм, парки и набережная Оби.",
+    variants: [
+      {
+        title: "Новосибирск за день",
+        points: 13,
+        price: "200 руб.",
+        time: "2-3 ч",
+        includes: ["Архитектура","Парки","Кофе по пути"],
+        about: "Объёмный маршрут через сердце города: от сталинских высоток на Красном проспекте до тенистых аллей Центрального парка. Заглянем в атмосферные дворики конструктивизма, посмотрим на Оперный театр с лучшей точки, выпьем кофе в кофейне с видом на набережную. Успеем и погулять, и отдохнуть, и сделать крутые фото — идеально, чтобы понять масштаб и характер мегаполиса за один день."
+      },
+      {
+        title: "Проспекты и парки",
+        points: 7,
+        price: "150 руб.",
+        time: "2 ч",
+        includes: ["Модернизм","Парки","Кофе"],
+        about: "Неспешная прогулка по зелёным артериям города: широкие проспекты с каштанами, скверы с модернистской скульптурой и уютные парковые зоны. Увидим редкие образцы советского модернизма, спрячемся от солнца под кронами старых деревьев, заскочим в кофейню с панорамными окнами. Маршрут для тех, кто хочет почувствовать ритм города без спешки и толп."
+      },
+      {
+        title: "Короткий Новосибирск",
+        points: 4,
+        price: "70 руб.",
+        time: "1 ч",
+        includes: ["Только главное","Без спешки","Одно кафе"],
+        about: "Экспресс-знакомство с главным: только ключевые точки, никакой суеты. За час успеем увидеть символ города, заглянуть в самое фотогеничное место на набережную и выпить кофе в проверенном месте с локальной атмосферой. Без лишних километров — только концентрат Новосибирска для тех, у кого мало времени, но хочется впечатлений."
+      }
+    ]
+  },
+  {
+    name: "Самара",
+    grad: "linear-gradient(135deg,#3a3a18,#8a8a30)",
+    tags: ["Волга","Улицы","Закат"],
+    short: "Волга, длинная набережная и старый город с купеческими домами — всё в одну прогулку.",
+    variants: [
+      {
+        title: "Самара за день",
+        points: 12,
+        price: "200 руб.",
+        time: "2-3 ч",
+        includes: ["Выход к Волге","Старый город","Кафе"],
+        about: "Полноценное знакомство с городом: прогулка у воды, погружение в историческую атмосферу и пауза на кофе. Оптимально, чтобы прочувствовать ритм Самары и не упустить главное."
+      },
+      {
+        title: "Волга и закат",
+        points: 7,
+        price: "150 руб.",
+        time: "1-2 ч",
+        includes: ["Набережная","Закат","Кофе"],
+        about: "Романтичный маршрут вдоль реки: неспешная прогулка, лучшие виды на закат и чашка кофе в финале. Идеален для спокойного вечера и атмосферных фото."
+      },
+      {
+        title: "Короткая Самара",
+        points: 4,
+        price: "70 руб.",
+        time: "1 ч",
+        includes: ["Только главное","Без спешки","Одно кафе"],
+        about: "Экспресс‑формат: только ключевые впечатления без спешки и одно уютное место для короткой остановки. Подходит, если времени совсем немного."
+      }
+    ]
+  },
+  {
+    name: "Уфа",
+    grad: "linear-gradient(135deg,#4a1f28,#8a3a45)",
+    tags: ["Холмы","История","Виды"],
+    short: "Город на холмах: подъёмы с видом, старые кварталы и неожиданно много зелени.",
+    variants: [
+      {
+        title: "Уфа за день",
+        points: 11,
+        price: "250 руб.",
+        time: "2-3 ч",
+        includes: ["Смотровые точки","Старые улицы","Кафе"],
+        about: "Маршрут, чтобы прочувствовать город: виды со смотровых, прогулка по атмосферным старым улицам и пауза в уютном кафе. Оптимальный баланс впечатлений и темпа."
+      },
+      {
+        title: "Холмы и виды",
+        points: 6,
+        price: "150 руб.",
+        time: "2 ч",
+        includes: ["Смотровые","Старый город","Кофе"],
+        about: "Акцент на панорамах: подъём на холмы, лучшие ракурсы старого города и чашка кофе для паузы. Идеально, если хочется красивых видов без долгих переходов."
+      },
+      {
+        title: "Короткая Уфа",
+        points: 4,
+        price: "70 руб.",
+        time: "1 ч",
+        includes: ["Только главное","Без подъёмов","Одно кафе"],
+        about: "Экспресс‑вариант: только главные впечатления без подъёмов и спешки, плюс одна остановка в кафе. Подходит, когда времени минимум, а увидеть суть хочется."
+      }
+    ]
+  },
+  {
+    name: "Тюмень",
+    grad: "linear-gradient(135deg,#3a2a1a,#7a5a30)",
+    tags: ["Дерево","Улицы","Кофе"],
+    short: "Резные деревянные дома, тихий центр и набережная — компактно и без спешки.",
+    variants: [
+      {
+        title: "Тюмень за день",
+        points: 10,
+        price: "170 руб.",
+        time: "2–3 ч",
+        includes: ["Деревянное зодчество","Набережная","Кофе"],
+        about: "Маршрут, чтобы раскрыть характер города: знакомство с деревянным зодчеством, прогулка вдоль набережной и пауза на кофе. Достаточно времени, чтобы не спешить и прочувствовать атмосферу."
+      },
+      {
+        title: "Дерево и набережная",
+        points: 6,
+        price: "120 руб.",
+        time: "1-2 ч",
+        includes: ["Резные дома","Набережная","Кофе"],
+        about: "Фокус на главных образах Тюмени: резные фасады и виды с набережной плюс чашка кофе для паузы. Компактный маршрут, где каждый кадр — готовая открытка.."
+      },
+      {
+        title: "Короткая Тюмень",
+        points: 4,
+        price: "70 руб.",
+        time: "1 ч",
+        includes: ["Только главное","Без спешки","Одно кафе"],
+        about: "Экспресс‑формат: только самое знаковое без спешки и одна остановка в кафе. Идеально, если нужно быстро поймать настроение города"
+      }
+    ]
+  },
+  {
+    name: "Иркутск",
+    grad: "linear-gradient(135deg,#16382a,#2f7a52)",
+    tags: ["Дерево","Байкал","История"],
+    short: "Старый сибирский центр с резными домами. Отдельно — маршрут к Байкалу на день.",
+    variants: [
+      {
+        title: "Иркутск за день",
+        points: 13,
+        price: "250 руб.",
+        time: "2-3 ч",
+        includes: ["Исторический центр","Деревянные дома","Кафе"],
+        about: "Полноценное погружение в город: прогулка по историческому центру, осмотр деревянных домов и пауза в уютном кафе. Достаточно времени, чтобы не торопиться и прочувствовать дух Иркутска."
+      },
+      {
+        title: "Старый Иркутск",
+        points: 7,
+        price: "150 руб.",
+        time: "1-2 ч",
+        includes: ["Деревянное зодчество","Старые улицы","Кофе"],
+        about: "Акцент на наследии города: деревянное зодчество и атмосферные старые улицы плюс чашка кофе для паузы. Компактный маршрут, который раскрывает характер исторического Иркутска."
+      },
+      {
+        title: "Короткий Иркутск",
+        points: 4,
+        price: "70 руб.",
+        time: "1 ч",
+        includes: ["Только главное","Без спешки","Одно кафе"],
+        about: "Экспресс‑формат: только главные образы города без спешки и одна остановка в кафе. Подходит, если времени мало, но хочется уловить настроение Иркутска."
+      }
+    ]
+  },
+  {
+    name: "Ярославль",
+    grad: "linear-gradient(135deg,#26313f,#5a708a)",
+    tags: ["Кремль","Волга","Роспись"],
+    short: "Тысячелетний город на Волге: кремль, храмы с росписью и тихие улицы в стороне от туристов.",
+    variants: [
+      {
+        title: "Ярославль за день",
+        points: 12,
+        price: "300 руб.",
+        time: "2-3 ч",
+        includes: ["Кремль","Храмы","Выход к Волге"],
+        about: "Маршрут, чтобы раскрыть характер города: знакомство с ансамблем Кремля, храмами и видами на Волгу. Темп спокойный — хватит времени на паузы и впечатления."
+      },
+      {
+        title: "Кремль и роспись",
+        points: 7,
+        price: "200 руб.",
+        time: "1-2 ч",
+        includes: ["Кремль","Храмы","Кофе"],
+        about: "Фокус на главном: ансамбль Кремля, храмовая архитектура и детали росписи плюс чашка кофе для паузы. Компактный маршрут, где каждая точка — важный штрих к образу города."
+      },
+      {
+        title: "Короткий Ярославль",
+        points: 5,
+        price: "100 руб.",
+        time: "1 ч",
+        includes: ["Только главное","Без спешки","Одно кафе"],
+        about: "Экспресс‑формат: только самое знаковое без спешки и одна остановка в кафе. Идеально, если нужно быстро поймать настроение Ярославля."
+      }
+    ]
+  }
+];
+
+/* ===== дальше можно не трогать ===== */
+const grid = document.getElementById('grid');
+const overlay = document.getElementById('overlay');
+const mTitle = document.getElementById('mTitle');
+const mMeta = document.getElementById('mMeta');
+const mList = document.getElementById('mList');
+
+const SHOW_FIRST = 6;
+
+function cardHTML(r, i, hidden){
+  const cheapest = r.variants.reduce(function(a,b){ return a.points <= b.points ? a : b; });
+  return '<button class="card' + (hidden ? ' hidden' : '') + '" data-i="' + i + '">' +
+    '<div class="art" style="background:' + r.grad + '">' + r.name + '</div>' +
+    '<div class="body">' +
+      '<div class="tags">' + r.tags.map(function(t){ return '<span class="tag">' + t + '</span>'; }).join('') + '</div>' +
+      '<p>' + r.short + '</p>' +
+      '<div class="foot"><span class="price">' + r.variants.length + ' маршрута</span><span>от ' + cheapest.time + '</span></div>' +
+    '</div>' +
+  '</button>';
+}
+
+grid.innerHTML = ROUTES.map(function(r,i){ return cardHTML(r, i, i >= SHOW_FIRST); }).join('');
+
+const moreBtn = document.getElementById('moreBtn');
+const moreTxt = document.getElementById('moreTxt');
+const moreCnt = document.getElementById('moreCnt');
+let expanded = false;
+
+function updateMore(){
+  const hiddenCount = ROUTES.length - SHOW_FIRST;
+  moreTxt.textContent = expanded ? 'Скрыть города' : 'Показать ещё города';
+  moreCnt.textContent = expanded ? '' : hiddenCount;
+  moreCnt.style.display = expanded ? 'none' : 'inline-block';
+}
+
+function expandCities(){
+  grid.querySelectorAll('.card.hidden').forEach(function(c,k){
+    c.classList.remove('hidden');
+    c.classList.add('appear');
+    c.style.animationDelay = (k*45) + 'ms';
+  });
+  expanded = true;
+  updateMore();
+}
+
+function collapseCities(){
+  grid.querySelectorAll('.card').forEach(function(c,i){
+    if(i >= SHOW_FIRST){ c.classList.add('hidden'); c.classList.remove('appear'); c.style.animationDelay = ''; }
+  });
+  expanded = false;
+  updateMore();
+}
+
+moreBtn.addEventListener('click', function(){
+  if(expanded){
+    collapseCities();
+    document.getElementById('routes').scrollIntoView({behavior:'smooth'});
+  } else {
+    expandCities();
+  }
+});
+
+document.getElementById('seeAllBtn').addEventListener('click', function(){
+  if(!expanded) expandCities();
+});
+
+updateMore();
+
+function openCity(i){
+  const r = ROUTES[i];
+  mTitle.textContent = r.name;
+  mMeta.textContent = r.variants.length + ' варианта маршрута';
+  mList.innerHTML = r.variants.map(function(v){
+    const num = v.points ? v.points : '—';
+    const numLbl = v.points ? 'точек' : 'под запрос';
+    return '<div class="var">' +
+      '<div class="var-top">' +
+        '<div>' +
+          '<h4>' + v.title + '</h4>' +
+          '<div class="var-sub">' + v.time + ' · ' + v.price + '</div>' +
+        '</div>' +
+        '<div class="var-num">' + num + '<small>' + numLbl + '</small></div>' +
+      '</div>' +
+      '<div class="inc">' + v.includes.map(function(x){ return '<span>' + x + '</span>'; }).join('') + '</div>' +
+      '<div class="about">' + v.about + '</div>' +
+      '<div style="display:flex;gap:8px">' +
+  '<a class="btn" href="https://t.me/Ggeeeeeer" style="flex:1">Заказать в Telegram</a>' +
+  '<a class="btn" href="https://max.ru/u/f9LHodD0cOJy_Cv_Sq4Q0EkIPYHQ8mHcrpac-SOiPwfdPv_yPWw21J4kkuw" style="flex:1;background:rgba(255,255,255,.08);border:1px solid #2b3346">Заказать в MAX</a>' +
+'</div>' +
+
+
+    '</div>';
+  }).join('');
+  overlay.classList.add('open');
+  document.body.classList.add('locked');
+}
+
+function closeCity(){
+  overlay.classList.remove('open');
+  document.body.classList.remove('locked');
+}
+
+grid.addEventListener('click', function(e){
+  const card = e.target.closest('.card');
+  if(card) openCity(+card.dataset.i);
+});
+document.getElementById('closeBtn').addEventListener('click', closeCity);
+overlay.addEventListener('click', function(e){ if(e.target === overlay) closeCity(); });
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeCity(); });
+</script>
+</body>
+</html>
