@@ -330,17 +330,36 @@ body.locked{overflow:hidden}
   background-position:0 0,0 0,0 0!important;
 }
 
-/* Если карточек больше шести — они получат волны по умолчанию */
-.card:nth-child(n+7) .art{
+/* ===== Сценки для карточек с 7-й и далее ===== */
+
+/* №7: северное сияние (зелёные ленты в тёмном небе) */
+.card:nth-child(7) .art{
   background-image:
-    radial-gradient(circle at 70% 24%,rgba(255,247,220,.9) 22px,transparent 23px),
-    repeating-linear-gradient(0deg,rgba(255,255,255,.15) 0 4px,transparent 4px 13px)!important;
-  background-size:auto,100% 46%!important;
-  background-position:0 0,bottom!important;
+    linear-gradient(105deg,rgba(92,242,192,.4) 8%,transparent 22%,rgba(92,242,192,.3) 38%,transparent 55%,rgba(92,242,192,.35) 72%,transparent 88%),
+    linear-gradient(rgba(4,10,24,.7),rgba(4,10,24,.4))!important;
+  background-size:100% 70%,100% 100%!important;
+  background-position:0 0,0 0!important;
 }
 
-/* 3. Окошки вариантов в попапе — лёгкая точечная текстура вместо плоского цвета */
-.var{background-image:radial-gradient(rgba(124,77,255,.08) 1.2px,transparent 2px);background-size:18px 18px}
+/* №8: весна и сакура (розовые лепестки в воздухе) */
+.card:nth-child(8) .art{
+  background-image:
+    radial-gradient(ellipse 5px 2px,rgba(255,143,163,.85) 50%,transparent 51%),
+    radial-gradient(ellipse 4px 2px,rgba(255,214,232,.8) 50%,transparent 51%),
+    linear-gradient(rgba(255,200,220,.35),rgba(255,160,190,.15))!important;
+  background-size:34px 34px,26px 26px,100% 100%!important;
+  background-position:6px 10px,17px 22px,0 0!important;
+}
+
+/* №9: ночь в мегаполисе (окна-огоньки в тёмных домах) */
+.card:nth-child(9) .art{
+  background-image:
+    radial-gradient(circle,rgba(255,220,120,.95) 2px,transparent 3px),
+    radial-gradient(circle,rgba(180,220,255,.85) 1.6px,transparent 2.8px),
+    linear-gradient(rgba(10,12,32,.65),rgba(10,12,32,.35))!important;
+  background-size:24px 30px,18px 24px,100% 100%!important;
+  background-position:4px 6px,12px 16px,0 0!important;
+}
 
 /* 4. Иконки-бейджи: круглая «медаль» с эмодзи, оживает при наведении */
 .ico{
