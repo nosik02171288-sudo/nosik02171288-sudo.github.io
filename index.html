@@ -12,215 +12,54 @@
 <script data-page-id="20482542" src="https://yandex.ru/ads/system/ap-loader.js" async></script>
 <style>
 :root{
-  --bg:#1e2447;
-  --tx:#ffffff;
-  --mut:#c3c9ea;
-  --acc:#ff5d8f;
-  --acc2:#ffb84d;
-  --acc3:#4dd4ff;
-  --ok:#5cf2c0;
-  --line:rgba(255,255,255,.18);
+  --bg:#faf6ef;
+  --paper:#ffffff;
+  --ink:#1a1a1a;
+  --tx:#1a1a1a;
+  --mut:#5f5b52;
+  --acc:#ffd43b;   /* жёлтый стикер */
+  --acc2:#ff8fa3;  /* розовый */
+  --acc3:#74c0fc;  /* голубой */
+  --ok:#63e6be;
+  --line:#1a1a1a;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 
 body{
   background:var(--bg);
   color:var(--tx);
-  font:16.5px/1.65 system-ui,-apple-system,'Segoe UI',sans-serif;
+  font:16px/1.65 system-ui,-apple-system,'Segoe UI',sans-serif;
   min-height:100vh;
   overflow-x:hidden;
   position:relative;
 }
 
-/* ===== Живой фон: три ярких шара ===== */
-.glow{position:fixed;border-radius:50%;filter:blur(70px);z-index:0;pointer-events:none;opacity:.6}
-.glow.g1{width:45vmax;height:45vmax;top:-15vmax;left:-10vmax;background:radial-gradient(circle,#ff5d8f 0%,transparent 70%);animation:float1 16s ease-in-out infinite alternate}
-.glow.g2{width:40vmax;height:40vmax;bottom:-15vmax;right:-10vmax;background:radial-gradient(circle,#4dd4ff 0%,transparent 70%);animation:float2 20s ease-in-out infinite alternate}
-.glow.g3{width:30vmax;height:30vmax;top:38%;left:55%;background:radial-gradient(circle,#ffb84d 0%,transparent 70%);animation:float3 13s ease-in-out infinite alternate}
-@keyframes float1{from{transform:translate(0,0) scale(1)}to{transform:translate(16vw,10vh) scale(1.25)}}
-@keyframes float2{from{transform:translate(0,0) scale(1.1)}to{transform:translate(-13vw,-9vh) scale(.9)}}
-@keyframes float3{from{transform:translate(0,0) scale(.9)}to{transform:translate(-16vw,13vh) scale(1.2)}}
+/* старые шары превращаем в мягкие пастельные пятна */
+.glow{position:fixed;border-radius:50%;filter:blur(90px);z-index:0;pointer-events:none;opacity:.35}
+.glow.g1{width:40vmax;height:40vmax;top:-15vmax;left:-10vmax;background:#ffd8a8;animation:drift1 20s ease-in-out infinite alternate}
+.glow.g2{width:36vmax;height:36vmax;bottom:-14vmax;right:-10vmax;background:#a5d8ff;animation:drift2 26s ease-in-out infinite alternate}
+.glow.g3{width:28vmax;height:28vmax;top:35%;left:55%;background:#ffdeeb;animation:drift1 23s ease-in-out infinite alternate-reverse}
+@keyframes drift1{from{transform:translate(0,0)}to{transform:translate(10vw,6vh)}}
+@keyframes drift2{from{transform:translate(0,0)}to{transform:translate(-9vw,-5vh)}}
 
 .wrap{max-width:1000px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
 
-/* ===== Шапка ===== */
-header{position:sticky;top:0;background:rgba(30,36,71,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);z-index:20;animation:slideDown .6s ease-out both}
+/* ===== Шапка — жирная линия снизу, как в газете ===== */
+header{position:sticky;top:0;background:var(--bg);border-bottom:3px solid var(--ink);z-index:20;animation:slideDown .5s ease-out both}
 @keyframes slideDown{from{transform:translateY(-100%)}to{transform:none}}
-header .wrap{display:flex;justify-content:space-between;align-items:center;height:64px}
-.logo{font-weight:800;text-decoration:none;font-size:19px;letter-spacing:-.02em;
-  background:linear-gradient(90deg,var(--acc),var(--acc2),var(--acc3),var(--acc));
-  background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:gradFlow 4s linear infinite}
-
-/* ===== Кнопка: яркая, крупная, с бегущим градиентом и блеском ===== */
-.btn{
-  position:relative;overflow:hidden;
-  padding:14px 34px;border-radius:100px;
-  background:linear-gradient(90deg,var(--acc),var(--acc2),var(--acc3),var(--acc));
-  background-size:300% 100%;
-  color:#ffffff;text-decoration:none;font-weight:800;font-size:16px;
-  display:inline-block;border:0;cursor:pointer;font-family:inherit;
-  box-shadow:0 8px 30px rgba(255,93,143,.5),0 0 0 0 rgba(255,184,77,.4);
-  transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s;
-  animation:gradFlow 5s linear infinite,pulseGlow 2.5s ease-in-out infinite;
-}
-@keyframes gradFlow{from{background-position:0% 50%}to{background-position:300% 50%}}
-@keyframes pulseGlow{
-  0%,100%{box-shadow:0 8px 30px rgba(255,93,143,.5),0 0 0 0 rgba(255,184,77,.35)}
-  50%{box-shadow:0 8px 34px rgba(255,93,143,.6),0 0 0 10px rgba(255,184,77,0)}
-}
-.btn::after{
-  content:"";position:absolute;top:0;left:-100%;width:60%;height:100%;
-  background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);
-  animation:sweep 2.6s ease-in-out infinite;
-}
-@keyframes sweep{0%{left:-100%}55%{left:160%}100%{left:160%}}
-.btn:hover{transform:translateY(-4px) scale(1.05);animation-play-state:paused}
-.btn:active{transform:scale(.94)}
-
-/* ===== Hero ===== */
-.hero{text-align:center;padding:90px 0 60px}
-h1{
-  font-size:clamp(36px,7vw,66px);
-  line-height:1.08;margin-bottom:18px;letter-spacing:-.03em;font-weight:800;
-  background:linear-gradient(100deg,var(--acc),var(--acc2),var(--acc3),var(--ok),var(--acc));
-  background-size:400% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:gradFlow 6s linear infinite,fadeUp .8s ease-out both;
-  text-shadow:0 0 40px rgba(255,93,143,.0);
-}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-.hero p{color:var(--mut);max-width:580px;margin:0 auto 32px;font-size:18px;animation:fadeUp .8s .2s ease-out both}
-.hero .btn{animation:gradFlow 5s linear infinite,pulseGlow 2.5s ease-in-out infinite,fadeUp .8s .4s ease-out both}
-
-section{padding:64px 0}
-h2{font-size:32px;text-align:center;margin-bottom:8px;letter-spacing:-.02em;font-weight:800}
-.sub{text-align:center;color:var(--mut);margin-bottom:40px;font-size:16px}
-
-/* ===== Карточки: живая переливающаяся рамка ===== */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
-.card{
+header .wrap{display:flex;justify-content:space-between;align-items:center;height:68px}
+.logo{
+  font-weight:800;text-decoration:none;font-size:20px;letter-spacing:-.02em;color:var(--ink);
   position:relative;
-  background:rgba(255,255,255,.08);
-  backdrop-filter:blur(12px);
-  border:1px solid var(--line);
-  border-radius:22px;overflow:hidden;cursor:pointer;text-align:left;
-  color:var(--tx);font-family:inherit;padding:0;
-  transition:transform .45s cubic-bezier(.34,1.56,.64,1),box-shadow .4s;
-  animation:cardIn .7s ease-out both;
 }
-.card:nth-child(1){animation-delay:.05s}
-.card:nth-child(2){animation-delay:.15s}
-.card:nth-child(3){animation-delay:.25s}
-.card:nth-child(4){animation-delay:.35s}
-.card:nth-child(5){animation-delay:.45s}
-.card:nth-child(6){animation-delay:.55s}
-@keyframes cardIn{from{opacity:0;transform:translateY(36px) scale(.96)}to{opacity:1;transform:none}}
-.card::before{
-  content:"";position:absolute;inset:0;border-radius:22px;padding:2px;
-  background:linear-gradient(130deg,var(--acc),var(--acc3),var(--acc2),var(--acc));
-  background-size:300% 100%;
-  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
-  -webkit-mask-composite:xor;mask-composite:exclude;
-  opacity:0;transition:opacity .4s;pointer-events:none;
-  animation:gradFlow 4s linear infinite;
-}
-.card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 24px 50px rgba(0,0,0,.5)}
-.card:hover::before{opacity:1}
-.card:active{transform:scale(.97)}
-.card .art{height:130px;display:flex;align-items:flex-end;padding:16px;font-size:21px;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.4)}
-.card .body{padding:18px}
-.card p{color:var(--mut);font-size:15px;margin-bottom:14px}
-.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.tag{font-size:12.5px;padding:5px 12px;border-radius:100px;border:1px solid var(--line);color:var(--tx);background:rgba(255,255,255,.1);font-weight:600;transition:background .25s,border-color .25s}
-.card:hover .tag{background:rgba(255,184,77,.18);border-color:rgba(255,184,77,.5)}
-.foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:12px;font-size:14px;color:var(--mut)}
-
-/* ===== Кнопка «показать ещё» ===== */
-.more-wrap{display:flex;justify-content:center;margin-top:40px}
-.more-btn{
-  position:relative;overflow:hidden;
-  padding:15px 40px;border-radius:100px;
-  background:rgba(255,255,255,.1);border:2px solid var(--line);
-  color:#fff;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;
-  transition:border-color .3s,transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .3s,background .3s;
-}
-.more-btn:hover{
-  border-color:var(--acc2);background:rgba(255,184,77,.15);
-  transform:translateY(-3px);box-shadow:0 12px 34px rgba(255,184,77,.3);
-}
-.more-btn:active{transform:scale(.95)}
-.more-btn .cnt{display:inline-block;min-width:20px;margin-left:6px;color:#1e2447;background:linear-gradient(90deg,var(--acc2),var(--acc3));border-radius:100px;padding:1px 9px;font-size:13.5px;font-weight:800}
-
-.card.hidden{display:none}
-.card.appear{animation:cardIn .7s ease-out both}
-
-/* ===== Цена — пульсирует и переливается ===== */
-.price{
-  font-weight:800;font-size:17px;white-space:nowrap;
-  background:linear-gradient(90deg,var(--acc2),var(--acc),var(--acc2));
-  background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:gradFlow 3s linear infinite;
+/* маркер-выделение под логотипом */
+.logo::after{
+  content:"";position:absolute;left:-2px;right:-2px;bottom:2px;height:10px;
+  background:var(--acc);z-index:-1;transform:skew(-12deg) rotate(-1.5deg);
 }
 
-/* ===== Попап ===== */
-.overlay{position:fixed;inset:0;background:rgba(15,19,42,.82);backdrop-filter:blur(12px);display:none;align-items:flex-start;justify-content:center;padding:40px 16px;z-index:100;overflow-y:auto}
-.overlay.open{display:flex}
-.modal{
-  background:rgba(34,41,84,.97);backdrop-filter:blur(18px);
-  border:1px solid var(--line);border-radius:28px;
-  max-width:640px;width:100%;overflow:hidden;
-  animation:pop .5s cubic-bezier(.34,1.4,.64,1) both;
-  box-shadow:0 40px 90px rgba(0,0,0,.6);
-}
-@keyframes pop{from{opacity:0;transform:translateY(40px) scale(.9)}to{opacity:1;transform:none}}
-.modal .head{padding:26px 28px 10px;position:relative}
-.modal .head h3{font-size:27px;margin-bottom:4px;letter-spacing:-.02em;padding-right:44px;font-weight:800;
-  background:linear-gradient(90deg,var(--acc),var(--acc2),var(--acc3),var(--acc));
-  background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:gradFlow 5s linear infinite}
-.modal .head .meta{color:var(--mut);font-size:14.5px}
-.close{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);border:0;color:#fff;font-size:20px;cursor:pointer;line-height:1;font-family:inherit;transition:background .25s,transform .4s cubic-bezier(.34,1.56,.64,1)}
-.close:hover{background:rgba(255,93,143,.5);transform:rotate(90deg)}
-.close:active{transform:scale(.85)}
-.var-list{padding:12px 28px 28px;display:flex;flex-direction:column;gap:14px}
-.var{
-  position:relative;
-  background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:20px;padding:18px;
-  transition:border-color .3s,transform .45s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
-}
-.var:hover{border-color:rgba(77,212,255,.6);transform:translateY(-3px);box-shadow:0 12px 30px rgba(77,212,255,.22)}
-.var-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:10px}
-.var-top h4{font-size:17.5px;margin:0 0 4px;letter-spacing:-.01em;color:#fff}
-.var-sub{font-size:13.5px;color:var(--mut)}
-.var-num{font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1;white-space:nowrap;
-  background:linear-gradient(90deg,var(--acc),var(--acc2),var(--acc));
-  background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:gradFlow 3s linear infinite}
-.var-num small{display:block;font-size:11px;font-weight:400;color:var(--mut);-webkit-text-fill-color:var(--mut);letter-spacing:0;margin-top:2px;text-align:right}
-.inc{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-.inc span{background:rgba(92,242,192,.14);border:1px solid rgba(92,242,192,.4);color:var(--ok);font-size:13px;padding:5px 13px;border-radius:100px;font-weight:600}
-.var .about{color:#d8ddf3;font-size:14.5px;line-height:1.55;margin-bottom:14px}
-.var .btn{width:100%;text-align:center;padding:13px;font-size:15px}
-footer{text-align:center;color:var(--mut);padding:38px 0;font-size:14px}
+/* ===== Кнопки — «наклейки»
 
-/* ===== АДАПТАЦИЯ ПОД ТЕЛЕФОН ===== */
-@media (max-width:768px){
-  h1{font-size:30px}
-  h2{font-size:25px}
-  .cards{grid-template-columns:1fr;gap:16px}
-  header .wrap{height:auto;padding:12px 16px;flex-wrap:wrap}
-  .btn{padding:15px 28px;font-size:16px}
-  section{padding:44px 16px}
-  .hero{padding:56px 0 40px}
-  .glow{filter:blur(55px);opacity:.45}
-}
-@media (max-width:480px){
-  body{font-size:15px}
-  h1{font-size:26px;line-height:1.25}
-  .hero p{font-size:15px}
-}
-body.locked{overflow:hidden}
-</style>
 
 
 
