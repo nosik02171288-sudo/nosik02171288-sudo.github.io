@@ -257,6 +257,102 @@ footer{text-align:center;color:var(--mut);padding:38px 0;font-size:14px}
   .hero p{font-size:15px}
 }
 body.locked{overflow:hidden}
+ /* ===== ПАТЧ: кнопка, картинки в окошках, иконки ===== */
+
+/* 1. Кнопка «Показать ещё» — текст крупнее и всегда контрастный */
+.more-btn{font-size:16.5px;font-weight:800;letter-spacing:.01em;color:#2e2a4d}
+.more-btn .cnt{background:#2e2a4d;color:#fff;box-shadow:0 2px 8px rgba(46,42,77,.35)}
+.more-btn:hover .cnt{background:#fff;color:#7c4dff}
+
+/* 2. Текст в окошках читается поверх любой картинки */
+.card .art{
+  text-shadow:0 2px 12px rgba(0,0,0,.55),0 1px 3px rgba(0,0,0,.4);
+  background-repeat:no-repeat;
+}
+
+/* Картинка-сценка №1: закат над городом (солнце + силуэты домов) */
+.card:nth-child(1) .art{
+  background-image:
+    radial-gradient(circle at 76% 26%,rgba(255,250,225,.95) 26px,transparent 27px),
+    linear-gradient(rgba(0,0,0,0) 60%,rgba(12,8,30,.4) 100%),
+    repeating-linear-gradient(90deg,rgba(10,8,28,.42) 0 16px,rgba(10,8,28,.22) 16px 30px,rgba(10,8,28,.06) 30px 44px,transparent 44px 58px)!important;
+  background-size:auto,100% 100%,100% 44%!important;
+  background-position:0 0,0 0,bottom!important;
+}
+
+/* №2: горы (два склона + маленькое солнце) */
+.card:nth-child(2) .art{
+  background-image:
+    radial-gradient(circle at 20% 26%,rgba(255,244,214,.92) 20px,transparent 21px),
+    linear-gradient(115deg,transparent 46%,rgba(30,15,50,.5) 46%),
+    linear-gradient(245deg,transparent 54%,rgba(20,10,40,.38) 54%),
+    linear-gradient(transparent 72%,rgba(10,8,26,.3) 72%)!important;
+  background-size:auto,100% 82%,100% 70%,100% 100%!important;
+  background-position:0 0,bottom,bottom,0 0!important;
+}
+
+/* №3: море (солнце + волны у горизонта) */
+.card:nth-child(3) .art{
+  background-image:
+    radial-gradient(circle at 72% 24%,rgba(255,247,220,.95) 22px,transparent 23px),
+    linear-gradient(transparent 55%,rgba(5,20,40,.35) 55%),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.18) 0 4px,transparent 4px 13px)!important;
+  background-size:auto,100% 100%,100% 46%!important;
+  background-position:0 0,0 0,bottom!important;
+}
+
+/* №4: ночной лес (светлячки-точки + тёмная дымка) */
+.card:nth-child(4) .art{
+  background-image:
+    radial-gradient(circle,rgba(255,240,180,.9) 1.5px,transparent 3px),
+    linear-gradient(160deg,rgba(6,22,16,.5),rgba(6,22,16,.12))!important;
+  background-size:26px 26px,100% 100%!important;
+  background-position:0 0,0 0!important;
+}
+
+/* №5: арки моста (полукруги + звёзды в небе) */
+.card:nth-child(5) .art{
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.7) 1.3px,transparent 2.6px),
+    radial-gradient(circle at 28% 118%,transparent 34px,rgba(20,12,45,.45) 35px),
+    radial-gradient(circle at 72% 122%,transparent 34px,rgba(20,12,45,.4) 35px)!important;
+  background-size:30px 30px,auto,auto!important;
+  background-position:0 0,0 0,0 0!important;
+}
+
+/* №6: дюны (большое солнце + песчаные холмы) */
+.card:nth-child(6) .art{
+  background-image:
+    radial-gradient(circle at 78% 22%,rgba(255,246,210,.95) 24px,transparent 25px),
+    radial-gradient(140% 60% at 28% 112%,rgba(90,40,60,.38) 60%,transparent 61%),
+    radial-gradient(160% 70% at 76% 120%,rgba(60,20,50,.32) 55%,transparent 56%)!important;
+  background-size:auto,auto,auto!important;
+  background-position:0 0,0 0,0 0!important;
+}
+
+/* Если карточек больше шести — они получат волны по умолчанию */
+.card:nth-child(n+7) .art{
+  background-image:
+    radial-gradient(circle at 70% 24%,rgba(255,247,220,.9) 22px,transparent 23px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.15) 0 4px,transparent 4px 13px)!important;
+  background-size:auto,100% 46%!important;
+  background-position:0 0,bottom!important;
+}
+
+/* 3. Окошки вариантов в попапе — лёгкая точечная текстура вместо плоского цвета */
+.var{background-image:radial-gradient(rgba(124,77,255,.08) 1.2px,transparent 2px);background-size:18px 18px}
+
+/* 4. Иконки-бейджи: круглая «медаль» с эмодзи, оживает при наведении */
+.ico{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:46px;height:46px;border-radius:50%;
+  background:rgba(255,255,255,.9);
+  box-shadow:0 6px 16px rgba(46,42,77,.28);
+  font-size:22px;line-height:1;flex-shrink:0;
+  transition:transform .45s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+}
+.card:hover .ico{transform:translateY(-5px) rotate(-10deg) scale(1.12);box-shadow:0 10px 22px rgba(124,77,255,.35)}
+
 </style>
 
 </head>
