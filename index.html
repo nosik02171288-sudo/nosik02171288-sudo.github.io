@@ -61,6 +61,22 @@ h2{font-size:30px;text-align:center;margin-bottom:8px}
 .inc{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
 .inc span{background:rgba(78,201,165,.1);border:1px solid rgba(78,201,165,.3);color:#9fe8d0;font-size:12.5px;padding:5px 12px;border-radius:100px}
 .var .about{color:#c3cadb;font-size:14px;line-height:1.55;margin-bottom:14px}
+/* ===== АДАПТАЦИЯ ПОД ТЕЛЕФОН ===== */
+@media (max-width: 768px) {
+  h1 { font-size: 28px; }
+  h2 { font-size: 24px; }
+  .cards { grid-template-columns: 1fr; gap: 14px; }
+  header .wrap { height: auto; padding: 12px 16px; flex-wrap: wrap; }
+  .btn { padding: 14px 24px; font-size: 16px; }
+  section { padding: 40px 16px; }
+  .hero { padding: 50px 0 40px; }
+}
+
+@media (max-width: 480px) {
+  body { font-size: 15px; }
+  h1 { font-size: 24px; line-height: 1.25; }
+  .hero p { font-size: 15px; }
+}
 .var .btn{width:100%;text-align:center;padding:12px;font-size:14.5px}
 footer{text-align:center;color:var(--mut);padding:38px 0;font-size:14px}
 body.locked{overflow:hidden}
