@@ -9,203 +9,269 @@
 <link rel="icon" href="icon-32.png" sizes="32x32" type="image/png">
 <style>
 :root{
-  --bg:#f2f0fb;--card:#ffffff;--tx:#2e2a4d;--mut:#7a7699;
-  --acc:#7c4dff;--acc2:#ff4d9d;--acc3:#00c2ff;--ok:#00c9a7;--line:#e6e2f5;
+  --bg:#141628;
+  --card:#1e2138;
+  --card2:#232743;
+  --tx:#eef0fa;
+  --mut:#9aa1c7;
+  --acc:#7c4dff;
+  --acc2:#ff4d9d;
+  --acc3:#00c2ff;
+  --ok:#00c9a7;
+  --line:rgba(255,255,255,.1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--tx);font:16.5px/1.65 system-ui,-apple-system,'Segoe UI',sans-serif;min-height:100vh;overflow-x:hidden}
+/* мягкие световые пятна в тёмном небе */
 body::before{content:"";position:fixed;inset:0;
   background:
-    radial-gradient(40% 35% at 20% 25%,rgba(124,77,255,.14),transparent 70%),
-    radial-gradient(35% 30% at 80% 20%,rgba(255,77,157,.11),transparent 70%),
-    radial-gradient(45% 40% at 65% 80%,rgba(0,194,255,.11),transparent 70%),
-    radial-gradient(35% 35% at 30% 85%,rgba(255,196,77,.1),transparent 70%);
+    radial-gradient(40% 35% at 18% 22%,rgba(124,77,255,.22),transparent 70%),
+    radial-gradient(35% 30% at 82% 18%,rgba(0,194,255,.16),transparent 70%),
+    radial-gradient(45% 40% at 70% 85%,rgba(255,77,157,.14),transparent 70%);
   z-index:0;pointer-events:none}
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
 
-/* ===== Шапка с навигацией ===== */
-header{position:sticky;top:0;background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);z-index:50;animation:slideDown .5s ease-out both}
+/* ===== Шапка ===== */
+header{position:sticky;top:0;background:rgba(20,22,40,.9);border-bottom:1px solid var(--line);z-index:50;animation:slideDown .5s ease-out both}
 @keyframes slideDown{from{transform:translateY(-100%)}to{transform:none}}
-header .wrap{display:flex;justify-content:space-between;align-items:center;height:64px;gap:16px}
+header .wrap{display:flex;justify-content:space-between;align-items:center;height:64px;gap:14px}
 .logo{font-weight:800;text-decoration:none;font-size:19px;letter-spacing:-.02em;color:var(--tx);white-space:nowrap}
 .nav{display:flex;gap:22px}
 .nav a{color:var(--mut);text-decoration:none;font-weight:700;font-size:14.5px;transition:color .2s}
-.nav a:hover{color:var(--acc)}
+.nav a:hover{color:var(--acc3)}
 .btn{position:relative;overflow:hidden;padding:13px 26px;border-radius:100px;
   background:linear-gradient(90deg,var(--acc),var(--acc2));color:#fff;text-decoration:none;
   font-weight:800;font-size:15px;display:inline-block;border:0;cursor:pointer;font-family:inherit;
-  box-shadow:0 6px 18px rgba(124,77,255,.28);transition:transform .25s ease,box-shadow .25s}
+  box-shadow:0 6px 18px rgba(124,77,255,.3);transition:transform .25s ease,box-shadow .25s}
 .btn::after{content:"";position:absolute;top:0;left:-100%;width:55%;height:100%;
-  background:linear-gradient(105deg,transparent,rgba(255,255,255,.5),transparent);transition:left .45s ease}
-.btn:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(255,77,157,.35)}
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.45),transparent);transition:left .45s ease}
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(255,77,157,.4)}
 .btn:hover::after{left:150%}
 .btn:active{transform:scale(.95)}
-.btn.alt{background:#fff;border:2px solid var(--acc);color:#000;box-shadow:0 6px 18px rgba(46,42,77,.12)}
-.btn.alt:hover{box-shadow:0 12px 28px rgba(124,77,255,.25)}
+.btn.alt{background:#fff;border:0;color:#000;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.btn.alt:hover{box-shadow:0 12px 28px rgba(124,77,255,.35)}
 
-/* ===== Hero: две колонки ===== */
-.hero{padding:70px 0 56px}
-.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center}
-h1{font-size:clamp(34px,5.5vw,56px);line-height:1.08;letter-spacing:-.03em;font-weight:900;animation:fadeUp .7s ease-out both}
-h1 span{background:linear-gradient(100deg,var(--acc),var(--acc2),var(--acc3),var(--acc));
+/* ===== Hero: центрированный ===== */
+.hero{text-align:center;padding:78px 0 52px}
+.hero-kicker{display:inline-block;background:rgba(124,77,255,.16);border:1px solid rgba(124,77,255,.4);
+  color:#c9b3ff;font-weight:800;font-size:13.5px;padding:6px 18px;border-radius:100px;margin-bottom:18px;animation:fadeUp .7s ease-out both}
+h1{font-size:clamp(34px,6vw,60px);line-height:1.08;letter-spacing:-.03em;font-weight:900;animation:fadeUp .7s .05s ease-out both}
+h1 span{background:linear-gradient(100deg,var(--acc3),var(--acc2),var(--acc),var(--acc3));
   background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradFlow 8s linear infinite}
 @keyframes gradFlow{from{background-position:0% 50%}to{background-position:250% 50%}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.hero-kicker{display:inline-block;background:linear-gradient(90deg,rgba(124,77,255,.12),rgba(255,77,157,.12));
-  color:var(--acc);font-weight:800;font-size:13.5px;padding:6px 16px;border-radius:100px;margin-bottom:16px;animation:fadeUp .7s ease-out both}
-.hero p{color:var(--mut);margin:18px 0 28px;font-size:16.5px;animation:fadeUp .7s .15s ease-out both}
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp .7s .28s ease-out both}
-.hero-stats{display:flex;gap:28px;margin-top:32px;animation:fadeUp .7s .4s ease-out both}
-.hstat b{display:block;font-size:24px;font-weight:900;letter-spacing:-.02em;
-  background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mut);max-width:660px;margin:20px auto 30px;font-size:16.5px;animation:fadeUp .7s .15s ease-out both}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp .7s .28s ease-out both}
+.hero-stats{display:flex;gap:34px;justify-content:center;margin-top:36px;animation:fadeUp .7s .4s ease-out both}
+.hstat b{display:block;font-size:26px;font-weight:900;letter-spacing:-.02em;
+  background:linear-gradient(90deg,var(--acc3),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hstat span{font-size:13px;color:var(--mut)}
 
-/* декоративная стопка карточек справа */
-.stack{position:relative;height:340px;animation:fadeUp .7s .3s ease-out both}
-.stack .mini{position:absolute;width:78%;background:#fff;border:1px solid var(--line);border-radius:20px;
-  box-shadow:0 12px 30px rgba(46,42,77,.12);padding:14px 16px;font-weight:800}
-.stack .mini small{display:block;font-weight:600;color:var(--mut);font-size:12px;margin-top:3px}
-.stack .m1{top:6%;left:6%;transform:rotate(-5deg)}
-.stack .m2{top:34%;left:20%;transform:rotate(3deg)}
-.stack .m3{top:63%;left:2%;transform:rotate(-2deg)}
-.stack .mini .bar{height:8px;border-radius:6px;background:linear-gradient(90deg,var(--acc),var(--acc2));margin-top:10px}
-
-section{padding:56px 0}
+section{padding:60px 0}
 h2{font-size:30px;text-align:center;letter-spacing:-.02em;font-weight:900}
 .sub{text-align:center;color:var(--mut);margin:8px auto 36px;font-size:16px;max-width:640px}
 
-/* ===== Как это работает ===== */
-.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.step{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;position:relative;animation:fadeUp .6s ease-out backwards}
-.step:nth-child(2){animation-delay:.12s}.step:nth-child(3){animation-delay:.24s}
-.step .n{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;
-  font-weight:900;font-size:19px;color:#fff;margin-bottom:14px;
-  background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 6px 16px rgba(124,77,255,.3)}
-.step h3{font-size:18px;margin-bottom:6px}
-.step p{color:var(--mut);font-size:14.5px}
+/* ===== Фильтры-чипсы ===== */
+.chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.chip{padding:10px 22px;border-radius:100px;border:1px solid var(--line);
+  background:rgba(255,255,255,.05);color:var(--tx);cursor:pointer;font-weight:700;font-size:14px;font-family:inherit;
+  transition:background .25s,color .25s,border-color .25s,transform .25s ease}
+.chip:hover{border-color:rgba(124,77,255,.5);transform:translateY(-2px)}
+.chip:active{transform:scale(.95)}
+.chip.on{background:linear-gradient(90deg,var(--acc),var(--acc2));color:#fff;border-color:transparent}
 
-/* ===== Города: широкие строки ===== */
-.rows{display:flex;flex-direction:column;gap:16px}
-.card{display:flex;align-items:stretch;width:100%;text-align:left;background:#fff;border:1px solid var(--line);
-  border-radius:22px;overflow:hidden;cursor:pointer;color:var(--tx);font-family:inherit;padding:0;
-  box-shadow:0 6px 18px rgba(46,42,77,.07);transition:transform .3s ease,box-shadow .3s,border-color .3s;
+/* ===== Города: вертикальные плитки на тёмном ===== */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:22px}
+.card{display:flex;flex-direction:column;text-align:left;
+  background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;
+  cursor:pointer;color:var(--tx);font-family:inherit;padding:0;
+  box-shadow:0 8px 24px rgba(0,0,0,.3);transition:transform .3s ease,box-shadow .3s,border-color .3s;
   animation:cardIn .5s ease-out backwards}
-@keyframes cardIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
 .card:nth-child(1){animation-delay:.04s}.card:nth-child(2){animation-delay:.1s}.card:nth-child(3){animation-delay:.16s}
 .card:nth-child(4){animation-delay:.22s}.card:nth-child(5){animation-delay:.28s}.card:nth-child(6){animation-delay:.34s}
-.card .art{position:relative;flex:0 0 150px;display:flex;align-items:flex-end;padding:14px;gap:8px;
-  font-size:17px;font-weight:800;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.45);background-repeat:no-repeat}
-.card .body{flex:1;padding:16px 20px;display:flex;flex-direction:column;gap:8px}
-.card .body p{color:var(--mut);font-size:14.5px;flex:1}
-.card:hover{transform:translateY(-4px);border-color:rgba(124,77,255,.4);box-shadow:0 16px 32px rgba(46,42,77,.14)}
-.card:active{transform:scale(.98)}
+.card .art{position:relative;height:150px;display:flex;align-items:flex-end;gap:10px;padding:16px;
+  font-size:19px;font-weight:800;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.55);background-repeat:no-repeat}
+.card .body{padding:18px;display:flex;flex-direction:column;gap:9px;flex:1}
+.card p{color:var(--mut);font-size:14.5px;flex:1}
+.card:hover{transform:translateY(-7px);border-color:rgba(124,77,255,.55);box-shadow:0 20px 44px rgba(0,0,0,.5)}
+.card:active{transform:scale(.97)}
 .tags{display:flex;gap:7px;flex-wrap:wrap}
-.tag{font-size:12px;font-weight:700;padding:4px 12px;border-radius:100px;border:1px solid var(--line);color:var(--tx);background:#f6f4ff;transition:background .25s,color .25s}
+.tag{font-size:12px;font-weight:700;padding:4px 12px;border-radius:100px;border:1px solid var(--line);color:var(--tx);background:rgba(255,255,255,.06);transition:background .25s,color .25s}
 .card:hover .tag{background:linear-gradient(90deg,var(--acc),var(--acc2));color:#fff;border-color:transparent}
-.foot{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--mut);border-top:1px dashed var(--line);padding-top:10px}
-.price{font-weight:900;font-size:15px;white-space:nowrap;background:linear-gradient(90deg,var(--acc),var(--acc2));
+.foot{display:flex;justify-content:space-between;align-items:center;border-top:1px dashed var(--line);padding-top:11px;font-size:14px;color:var(--mut)}
+.price{font-weight:900;font-size:15px;white-space:nowrap;background:linear-gradient(90deg,var(--acc3),var(--acc2));
   -webkit-background-clip:text;background-clip:text;color:transparent}
-.ico{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;
-  background:rgba(255,255,255,.92);box-shadow:0 4px 10px rgba(46,42,77,.25);font-size:19px;line-height:1;flex-shrink:0;transition:transform .35s ease}
-.card:hover .ico{transform:translateY(-3px) rotate(-8deg)}
+.ico{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,.94);box-shadow:0 4px 12px rgba(0,0,0,.35);font-size:20px;line-height:1;flex-shrink:0;transition:transform .35s ease}
+.card:hover .ico{transform:translateY(-4px) rotate(-8deg)}
 
 /* ===== Показать ещё ===== */
-.more-wrap{display:flex;justify-content:center;margin-top:32px}
-.more-btn{position:relative;overflow:hidden;padding:15px 40px;border-radius:100px;background:#fff;border:2px solid var(--line);
-  color:#2e2a4d;font-size:16.5px;font-weight:800;font-family:inherit;cursor:pointer;
+.more-wrap{display:flex;justify-content:center;margin-top:34px}
+.more-btn{position:relative;overflow:hidden;padding:15px 40px;border-radius:100px;
+  background:rgba(255,255,255,.06);border:2px solid var(--line);
+  color:#fff;font-size:16.5px;font-weight:800;font-family:inherit;cursor:pointer;
   transition:transform .3s ease,box-shadow .3s,color .3s,border-color .3s}
 .more-btn::before{content:"";position:absolute;inset:0;border-radius:100px;background:linear-gradient(90deg,var(--acc),var(--acc2),var(--acc3));opacity:0;transition:opacity .25s}
 .more-btn span,.more-btn .cnt{position:relative;z-index:1}
-.more-btn:hover{color:#fff;border-color:transparent;transform:translateY(-3px);box-shadow:0 10px 26px rgba(124,77,255,.3)}
+.more-btn:hover{border-color:transparent;transform:translateY(-3px);box-shadow:0 12px 30px rgba(124,77,255,.4)}
 .more-btn:hover::before{opacity:1}
 .more-btn:active{transform:scale(.96)}
-.more-btn .cnt{display:inline-block;min-width:20px;margin-left:6px;background:#2e2a4d;color:#fff;border-radius:100px;padding:1px 9px;font-size:13.5px;font-weight:800}
+.more-btn .cnt{display:inline-block;min-width:20px;margin-left:6px;background:#fff;color:#141628;border-radius:100px;padding:1px 9px;font-size:13.5px;font-weight:800}
 .card.hidden{display:none}
 .card.appear{animation:cardIn .5s ease-out backwards}
 
 /* ===== Отзывы ===== */
 .reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-.review{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;position:relative;animation:fadeUp .6s ease-out backwards}
+.review{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;animation:fadeUp .6s ease-out backwards}
 .review:nth-child(2){animation-delay:.12s}.review:nth-child(3){animation-delay:.24s}
-.review .stars{color:#ffb020;font-size:17px;letter-spacing:2px;margin-bottom:10px}
-.review p{color:var(--tx);font-size:15px;line-height:1.6;margin-bottom:14px}
+.review .stars{color:#ffc247;font-size:17px;letter-spacing:2px;margin-bottom:10px}
+.review p{font-size:15px;line-height:1.6;margin-bottom:14px}
 .review .who{display:flex;align-items:center;gap:12px}
 .review .ava{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;
   font-weight:900;color:#fff;font-size:17px;background:linear-gradient(135deg,var(--acc),var(--acc2))}
 .review .who b{display:block;font-size:15px}
 .review .who span{font-size:13px;color:var(--mut)}
-.r-empty{background:#fff;border:2px dashed var(--line);border-radius:22px;padding:40px 24px;text-align:center;color:var(--mut)}
+.r-empty{background:var(--card);border:2px dashed var(--line);border-radius:22px;padding:40px 24px;text-align:center;color:var(--mut);grid-column:1/-1}
+.r-empty a{color:var(--acc3);font-weight:700;text-decoration:none}
 
 /* ===== Финальный призыв ===== */
 .cta-band{background:linear-gradient(120deg,var(--acc),var(--acc2));border-radius:28px;padding:44px 32px;
-  text-align:center;color:#fff;box-shadow:0 18px 44px rgba(124,77,255,.3)}
+  text-align:center;color:#fff;box-shadow:0 18px 44px rgba(124,77,255,.35)}
 .cta-band h2{color:#fff}
 .cta-band p{opacity:.92;margin:10px auto 24px;max-width:520px}
 .cta-band .btn{background:#fff;color:#2e2a4d}
 .cta-band .btn.alt{background:rgba(255,255,255,.15);border:2px solid #fff;color:#fff}
 
-footer{text-align:center;color:var(--mut);padding:40px 0 90px;font-size:14px}
+footer{text-align:center;color:var(--mut);padding:40px 0 96px;font-size:14px}
 footer a{color:var(--tx);font-weight:700;text-decoration:none}
 
 /* ===== Попап ===== */
-.overlay{position:fixed;inset:0;background:rgba(46,42,77,.45);display:none;align-items:flex-start;justify-content:center;padding:36px 16px;z-index:100;overflow-y:auto}
+.overlay{position:fixed;inset:0;background:rgba(8,9,20,.7);display:none;align-items:flex-start;justify-content:center;padding:36px 16px;z-index:100;overflow-y:auto}
 .overlay.open{display:flex}
-.modal{background:#fff;border:1px solid var(--line);border-radius:26px;max-width:640px;width:100%;overflow:hidden;
-  animation:pop .4s cubic-bezier(.34,1.4,.64,1) both;box-shadow:0 24px 60px rgba(46,42,77,.3)}
+.modal{background:var(--card2);border:1px solid var(--line);border-radius:26px;max-width:640px;width:100%;overflow:hidden;
+  animation:pop .4s cubic-bezier(.34,1.4,.64,1) both;box-shadow:0 30px 70px rgba(0,0,0,.6)}
 @keyframes pop{from{opacity:0;transform:translateY(32px) scale(.94)}to{opacity:1;transform:none}}
 .modal .head{padding:24px 26px 12px;position:relative}
 .modal .head h3{font-size:26px;letter-spacing:-.02em;padding-right:44px;font-weight:900;
-  background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  background:linear-gradient(90deg,var(--acc3),var(--acc2),var(--acc));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
 .modal .head .meta{color:var(--mut);font-size:14.5px}
-.close{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;background:#f4f1fc;border:0;
+.close{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.1);border:0;
   color:var(--tx);font-size:19px;font-weight:700;cursor:pointer;line-height:1;font-family:inherit;transition:background .2s,transform .3s ease}
 .close:hover{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;transform:rotate(90deg)}
 .close:active{transform:scale(.85)}
 .var-list{padding:12px 26px 26px;display:flex;flex-direction:column;gap:14px}
-.var{background:#faf9ff;border:1px solid var(--line);border-radius:18px;padding:18px;transition:border-color .25s,transform .3s ease,box-shadow .3s}
-.var:hover{border-color:rgba(124,77,255,.45);transform:translateY(-2px);box-shadow:0 10px 24px rgba(124,77,255,.14)}
+.var{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:18px;padding:18px;transition:border-color .25s,transform .3s ease,box-shadow .3s}
+.var:hover{border-color:rgba(124,77,255,.5);transform:translateY(-2px);box-shadow:0 10px 24px rgba(124,77,255,.2)}
 .var-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:10px}
 .var-top h4{font-size:17.5px;margin:0 0 4px}
 .var-sub{font-size:13.5px;color:var(--mut)}
 .var-num{font-size:26px;font-weight:900;line-height:1;white-space:nowrap;letter-spacing:-.03em;
-  background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  background:linear-gradient(90deg,var(--acc3),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .var-num small{display:block;font-size:11px;font-weight:500;color:var(--mut);-webkit-text-fill-color:var(--mut);margin-top:2px;text-align:right}
 .inc{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
-.inc span{background:rgba(0,201,167,.1);border:1px solid rgba(0,201,167,.35);color:#00947a;font-size:12.5px;font-weight:700;padding:5px 13px;border-radius:100px}
+.inc span{background:rgba(0,201,167,.12);border:1px solid rgba(0,201,167,.4);color:#7fe0c0;font-size:12.5px;font-weight:700;padding:5px 13px;border-radius:100px}
 .var .about{color:var(--mut);font-size:14.5px;line-height:1.55;margin-bottom:14px}
 .var .btn-row{display:flex;gap:8px}
 .var .btn{flex:1;text-align:center;padding:12px;font-size:15px}
 
 /* ===== Липкая панель на телефоне ===== */
-.mbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(255,255,255,.96);
+.mbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(20,22,40,.96);
   border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));gap:8px}
 .mbar .btn{flex:1;text-align:center;padding:12px 10px;font-size:14px}
 
+/* ===== Сценки в окошках (по порядку городов) ===== */
+.card:nth-child(1) .art{background-image:
+  radial-gradient(circle at 76% 26%,rgba(255,250,225,.95) 26px,transparent 27px),
+  linear-gradient(rgba(0,0,0,0) 60%,rgba(12,8,30,.4) 100%),
+  repeating-linear-gradient(90deg,rgba(10,8,28,.42) 0 16px,rgba(10,8,28,.22) 16px 30px,rgba(10,8,28,.06) 30px 44px,transparent 44px 58px)!important;
+  background-size:auto,100% 100%,100% 44%!important;background-position:0 0,0 0,bottom!important}
+.card:nth-child(2) .art{background-image:
+  radial-gradient(circle at 20% 26%,rgba(255,244,214,.92) 20px,transparent 21px),
+  linear-gradient(115deg,transparent 46%,rgba(30,15,50,.5) 46%),
+  linear-gradient(245deg,transparent 54%,rgba(20,10,40,.38) 54%),
+  linear-gradient(transparent 72%,rgba(10,8,26,.3) 72%)!important;
+  background-size:auto,100% 82%,100% 70%,100% 100%!important;background-position:0 0,bottom,bottom,0 0!important}
+.card:nth-child(3) .art{background-image:
+  radial-gradient(circle at 72% 24%,rgba(255,247,220,.95) 22px,transparent 23px),
+  linear-gradient(transparent 55%,rgba(5,20,40,.35) 55%),
+  repeating-linear-gradient(0deg,rgba(255,255,255,.18) 0 4px,transparent 4px 13px)!important;
+  background-size:auto,100% 100%,100% 46%!important;background-position:0 0,0 0,bottom!important}
+.card:nth-child(4) .art{background-image:
+  radial-gradient(circle,rgba(255,240,180,.9) 1.5px,transparent 3px),
+  linear-gradient(160deg,rgba(6,22,16,.5),rgba(6,22,16,.12))!important;
+  background-size:26px 26px,100% 100%!important;background-position:0 0,0 0!important}
+.card:nth-child(5) .art{background-image:
+  radial-gradient(circle,rgba(255,255,255,.7) 1.3px,transparent 2.6px),
+  radial-gradient(circle at 28% 118%,transparent 34px,rgba(20,12,45,.45) 35px),
+  radial-gradient(circle at 72% 122%,transparent 34px,rgba(20,12,45,.4) 35px)!important;
+  background-size:30px 30px,auto,auto!important;background-position:0 0,0 0,0 0!important}
+.card:nth-child(6) .art{background-image:
+  radial-gradient(circle at 78% 22%,rgba(255,246,210,.95) 24px,transparent 25px),
+  radial-gradient(140% 60% at 28% 112%,rgba(90,40,60,.38) 60%,transparent 61%),
+  radial-gradient(160% 70% at 76% 120%,rgba(60,20,50,.32) 55%,transparent 56%)!important}
+.card:nth-child(7) .art{background-image:
+  linear-gradient(105deg,rgba(92,242,192,.4) 8%,transparent 22%,rgba(92,242,192,.3) 38%,transparent 55%,rgba(92,242,192,.35) 72%,transparent 88%),
+  linear-gradient(rgba(4,10,24,.7),rgba(4,10,24,.4))!important;
+  background-size:100% 70%,100% 100%!important;background-position:0 0,0 0!important}
+.card:nth-child(8) .art{background-image:
+  radial-gradient(ellipse 5px 2px,rgba(255,143,163,.85) 50%,transparent 51%),
+  radial-gradient(ellipse 4px 2px,rgba(255,214,232,.8) 50%,transparent 51%),
+  linear-gradient(rgba(255,200,220,.35),rgba(255,160,190,.15))!important;
+  background-size:34px 34px,26px 26px,100% 100%!important;background-position:6px 10px,17px 22px,0 0!important}
+.card:nth-child(9) .art{background-image:
+  radial-gradient(circle,rgba(255,220,120,.95) 2px,transparent 3px),
+  radial-gradient(circle,rgba(180,220,255,.85) 1.6px,transparent 2.8px),
+  linear-gradient(rgba(10,12,32,.65),rgba(10,12,32,.35))!important;
+  background-size:24px 30px,18px 24px,100% 100%!important;background-position:4px 6px,12px 16px,0 0!important}
+.card:nth-child(10) .art{background-image:
+  radial-gradient(circle at 50% 18%,rgba(255,250,214,.95) 26px,transparent 27px),
+  repeating-linear-gradient(84deg,rgba(140,100,20,.28) 0 3px,transparent 3px 9px),
+  linear-gradient(rgba(255,214,120,.3),rgba(180,120,30,.35))!important;
+  background-size:auto,100% 55%,100% 100%!important;background-position:0 0,bottom,0 0!important}
+.card:nth-child(11) .art{background-image:
+  radial-gradient(circle,rgba(255,255,255,.95) 2px,transparent 3px),
+  radial-gradient(circle,rgba(255,255,255,.6) 1.2px,transparent 2.2px),
+  linear-gradient(rgba(130,180,230,.45),rgba(70,120,190,.4))!important;
+  background-size:30px 30px,20px 20px,100% 100%!important;background-position:5px 8px,14px 20px,0 0!important}
+.card:nth-child(12) .art{background-image:
+  linear-gradient(72deg,transparent 40%,rgba(255,240,170,.55) 42%,rgba(255,240,170,.2) 46%,transparent 48%),
+  radial-gradient(circle at 84% 30%,rgba(255,246,200,.9) 14px,transparent 15px),
+  linear-gradient(transparent 62%,rgba(6,28,48,.4) 62%)!important}
+.card:nth-child(13) .art{background-image:
+  linear-gradient(65deg,transparent 55%,rgba(250,250,255,.75) 56%,rgba(250,250,255,.75) 60%,transparent 61%),
+  radial-gradient(circle at 22% 24%,rgba(255,247,214,.9) 18px,transparent 19px),
+  linear-gradient(transparent 58%,rgba(8,32,54,.38) 58%)!important}
+.card:nth-child(14) .art{background-image:
+  repeating-linear-gradient(90deg,rgba(255,255,255,.4) 0 5px,transparent 5px 12px),
+  linear-gradient(160deg,rgba(20,60,70,.5),rgba(30,90,100,.25))!important;
+  background-size:60% 80%,100% 100%!important;background-position:top,0 0!important}
+.card:nth-child(15) .art{background-image:
+  radial-gradient(circle,rgba(255,200,90,.95) 3px,transparent 4.5px),
+  linear-gradient(rgba(40,24,52,.55),rgba(40,24,52,.3))!important;
+  background-size:38px 44px,100% 100%!important;background-position:8px calc(100% - 14px),0 0!important}
+
 /* ===== АДАПТАЦИЯ ===== */
 @media (max-width:900px){
-  .hero-grid{grid-template-columns:1fr}
-  .stack{display:none}
   .nav{display:none}
 }
 @media (max-width:768px){
   h1{font-size:30px}
   h2{font-size:25px}
-  .how-grid{grid-template-columns:1fr}
+  .cards{grid-template-columns:1fr;gap:16px}
   header .wrap{height:auto;padding:12px 16px;flex-wrap:wrap}
-  section{padding:40px 0}
-  .hero{padding:44px 0 36px}
+  section{padding:42px 0}
+  .hero{padding:48px 0 36px}
   h1 span{animation:none}
-  /* строка-карточка превращается в вертикальную */
-  .card{flex-direction:column}
-  .card .art{flex:none;height:110px;align-items:flex-end}
   .mbar{display:flex}
-  footer{padding-bottom:110px}
 }
 @media (max-width:480px){
   body{font-size:15px}
   h1{font-size:26px;line-height:1.25}
   .hero p{font-size:15px}
   .var .btn-row{flex-direction:column}
+  .hero-stats{gap:20px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -219,7 +285,6 @@ body.locked{overflow:hidden}
   <div class="wrap">
     <a href="#" class="logo">🗺️ Маршруты</a>
     <nav class="nav">
-      <a href="#how">Как это работает</a>
       <a href="#routes">Города</a>
       <a href="#reviews">Отзывы</a>
       <a href="tel:+79674697215">+7 967 469-72-15</a>
@@ -232,47 +297,36 @@ body.locked{overflow:hidden}
 </header>
 
 <div class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="hero-kicker">Пешеходные маршруты в Яндекс Картах</div>
-      <h1>Маршруты по городам, в которых <span>интересно</span></h1>
-      <p>Маршрут под тебя. Если вы планируете путешествие и не знаете, что посмотреть в городе и где красиво погулять, — ознакомьтесь с городами ниже и выберите подходящий. В маршрутах — красивые исторические здания, легенды города и интересные истории. Если нужен особый маршрут в другом городе с вашими предпочтениями — я составлю подробный маршрут в Яндекс Картах и учту все пожелания.</p>
-      <div class="hero-actions">
-        <a class="btn" href="#routes">Смотреть города →</a>
-        <a class="btn alt" href="https://t.me/Ggeeeeeer">Обсудить в Telegram</a>
-      </div>
-      <div class="hero-stats">
-        <div class="hstat"><b>15</b><span>готовых городов</span></div>
-        <div class="hstat"><b>40+</b><span>маршрутов внутри</span></div>
-        <div class="hstat"><b>от 70 ₽</b><span>цена маршрута</span></div>
-      </div>
+  <div class="wrap">
+    <div class="hero-kicker">Пешеходные маршруты в Яндекс Картах</div>
+    <h1>Маршруты по городам,<br>в которых <span>интересно</span></h1>
+    <p>Маршрут под тебя. Если вы планируете путешествие и не знаете, что посмотреть в городе и где красиво погулять, — выберите город из списка ниже. В маршрутах — красивые исторические здания, легенды города и интересные истории. Если нужен особый маршрут в другом городе с вашими предпочтениями — я составлю подробный маршрут в Яндекс Картах и учту все пожелания.</p>
+    <div class="hero-actions">
+      <a class="btn" href="#routes">Смотреть города →</a>
+      <a class="btn alt" href="https://t.me/Ggeeeeeer">Обсудить в Telegram</a>
     </div>
-    <div class="stack" aria-hidden="true">
-      <div class="mini m1">🗺️ Казань<small>20 точек · 2–4 часа</small><div class="bar"></div></div>
-      <div class="mini m2">🌉 Санкт-Петербург<small>18 точек · 5–7 часов</small><div class="bar"></div></div>
-      <div class="mini m3">🌴 Сочи<small>16 точек · 4–6 часов</small><div class="bar"></div></div>
+    <div class="hero-stats">
+      <div class="hstat"><b>15</b><span>готовых городов</span></div>
+      <div class="hstat"><b>40+</b><span>маршрутов внутри</span></div>
+      <div class="hstat"><b>от 70 ₽</b><span>цена маршрута</span></div>
     </div>
   </div>
 </div>
 
-<section id="how">
-  <div class="wrap">
-    <h2>Как это работает</h2>
-    <p class="sub">Три шага — и маршрут уже в вашем телефоне.</p>
-    <div class="how-grid">
-      <div class="step"><div class="n">1</div><h3>Выбираете город</h3><p>Нажимаете на карточку и смотрите варианты маршрута: за день, по старым улицам или короткий экспресс-вариант.</p></div>
-      <div class="step"><div class="n">2</div><h3>Пишете мне</h3><p>Оставляете заявку в Telegram или MAX — уточняем детали, даты и пожелания, если они есть.</p></div>
-      <div class="step"><div class="n">3</div><h3>Получаете маршрут</h3><p>Я собираю маршрут в Яндекс Картах со всеми точками, историями и местами для отдыха — и он остаётся у вас в телефоне.</p></div>
-    </div>
-  </div>
-</section>
-
 <section id="routes">
   <div class="wrap">
     <h2>Города</h2>
-    <p class="sub">Нажмите на строку, чтобы выбрать маршрут. Здесь же можно подать заявку на маршрут под себя.</p>
-    <div class="rows" id="grid"></div>
-    <div class="more-wrap">
+    <p class="sub">Выберите тему фильтром или нажмите на карточку, чтобы посмотреть варианты маршрута и заказать.</p>
+    <div class="chips" id="chips">
+      <button class="chip on" data-cat="all">Все</button>
+      <button class="chip" data-cat="История">История</button>
+      <button class="chip" data-cat="Виды">Виды</button>
+      <button class="chip" data-cat="Природа">Природа</button>
+      <button class="chip" data-cat="Арт">Арт</button>
+      <button class="chip" data-cat="Под запрос">Под запрос</button>
+    </div>
+    <div class="cards" id="grid"></div>
+    <div class="more-wrap" id="moreWrap">
       <button class="more-btn" id="moreBtn"><span id="moreTxt">Показать ещё города</span><span class="cnt" id="moreCnt"></span></button>
     </div>
   </div>
@@ -303,7 +357,6 @@ body.locked{overflow:hidden}
   Маршруты по городам, собранные вручную · <a href="tel:+79674697215">+7 967 469-72-15</a>
 </footer>
 
-<!-- липкая панель кнопок на телефоне -->
 <div class="mbar">
   <a class="btn" href="https://t.me/Ggeeeeeer">Telegram</a>
   <a class="btn alt" href="https://max.ru/u/f9LHodD0cOJy_Cv_Sq4Q0EkIPYHQ8mHcrpac-SOiPwfdPv_yPWw21J4kkuw">MAX</a>
@@ -324,11 +377,13 @@ body.locked{overflow:hidden}
 <script>
 /* ============================================================
    ВСЯ ИНФА ТУТ. Меняй только текст в кавычках.
+   cat — категория для фильтра: История / Виды / Природа / Арт / Под запрос
    ============================================================ */
 const ROUTES = [
   {
     name: "Казань",
     grad: "linear-gradient(135deg,#2b3a6b,#4a5fa8)",
+    cat: "История",
     tags: ["История","Еда","Вода"],
     short: "От Кремля вниз через старый город к набережной — без очередей и ловушек.",
     variants: [
@@ -369,6 +424,7 @@ const ROUTES = [
   {
     name: "Москва",
     grad: "linear-gradient(135deg,#5b2b3a,#a84a5f)",
+    cat: "История",
     tags: ["Архитектура","Дворы","Метро"],
     short: "Не Красная площадь, а переулки между ней: доходные дома, дворы-колодцы, старые вывески.",
     variants: [
@@ -401,6 +457,7 @@ const ROUTES = [
   {
     name: "Санкт-Петербург",
     grad: "linear-gradient(135deg,#1f4b52,#3a8b96)",
+    cat: "История",
     tags: ["Набережные","Дворы","Кофе"],
     short: "Крыши, дворы и вода. Питер как город, в котором живут, а не открытка.",
     variants: [
@@ -433,6 +490,7 @@ const ROUTES = [
   {
     name: "Нижний Новгород",
     grad: "linear-gradient(135deg,#4a3a1f,#96803a)",
+    cat: "Виды",
     tags: ["Виды","Ступени","Закат"],
     short: "От кремля по Чкаловской лестнице вниз, к реке, и обратно наверх — на закат.",
     variants: [
@@ -465,6 +523,7 @@ const ROUTES = [
   {
     name: "Екатеринбург",
     grad: "linear-gradient(135deg,#3a2b4a,#6b4a96)",
+    cat: "Арт",
     tags: ["Конструктивизм","Стрит-арт"],
     short: "Город конструктивизма и граффити: кварталы, которых нет в путеводителях.",
     variants: [
@@ -482,7 +541,7 @@ const ROUTES = [
         price: "200 руб.",
         time: "2–3 ч",
         includes: ["Архитектура","Муралы","Кофе"],
-        about: "Екатеринбург — город, где прошлое не прячется в музеях, а живёт прямо на улицах. За один день вы почувствуете его индустриальную энергию и увидите, как смелые идеи 1920–1930-х годов превратились в целые городские ансамбли. Конструктивизм здесь не просто стиль — это история про людей, которые хотели строить будущее, и их след до сих пор читается в строгих линиях домов и ритме кварталов."
+        about: "Екатеринбург — город, где прошлое не прячется в музеях, а живёт прямо на улицах. За один день вы почувствуете его индустриальную энергию и увидите, как смелые идеи 1920–1930-х годов превратились в целые городские ансамбли. Конструктивизм здесь не просто стиль — это история про людей, которые хотели строить будущее."
       },
       {
         title: "Короткий Екатеринбург",
@@ -497,6 +556,7 @@ const ROUTES = [
   {
     name: "Любой город — закажи со своими предпочтениями",
     grad: "linear-gradient(135deg,#1f4a3a,#3a966b)",
+    cat: "Под запрос",
     tags: ["Под запрос"],
     short: "Назови город — соберу маршрут по картам, панорамам и отзывам местных.",
     variants: [
@@ -513,6 +573,7 @@ const ROUTES = [
   {
     name: "Сочи",
     grad: "linear-gradient(135deg,#0f4a52,#2a9aa8)",
+    cat: "Природа",
     tags: ["Море","Горы","Еда"],
     short: "Не набережная с толпой, а подъём к смотровым и тихие переулки между морем и горами.",
     variants: [
@@ -545,6 +606,7 @@ const ROUTES = [
   {
     name: "Калининград",
     grad: "linear-gradient(135deg,#5a3a1a,#b07a2a)",
+    cat: "История",
     tags: ["Кирпич","История","Улицы"],
     short: "Город с другой историей: немецкая кирпичная архитектура, тихие районы, много зелени.",
     variants: [
@@ -577,6 +639,7 @@ const ROUTES = [
   {
     name: "Владивосток",
     grad: "linear-gradient(135deg,#1f3550,#4878a8)",
+    cat: "Природа",
     tags: ["Сопки","Море","Виды"],
     short: "Город на сопках: подъёмы, лестницы, вид на бухту и мосты — и всё это пешком.",
     variants: [
@@ -609,6 +672,7 @@ const ROUTES = [
   {
     name: "Новосибирск",
     grad: "linear-gradient(135deg,#4a2038,#a03a6e)",
+    cat: "Арт",
     tags: ["Модернизм","Парки","Река"],
     short: "Столица Сибири: широкие проспекты, конструктивизм, парки и набережная Оби.",
     variants: [
@@ -641,6 +705,7 @@ const ROUTES = [
   {
     name: "Самара",
     grad: "linear-gradient(135deg,#3a3a18,#8a8a30)",
+    cat: "Виды",
     tags: ["Волга","Улицы","Закат"],
     short: "Волга, длинная набережная и старый город с купеческими домами — всё в одну прогулку.",
     variants: [
@@ -673,6 +738,7 @@ const ROUTES = [
   {
     name: "Уфа",
     grad: "linear-gradient(135deg,#4a1f28,#8a3a45)",
+    cat: "Виды",
     tags: ["Холмы","История","Виды"],
     short: "Город на холмах: подъёмы с видом, старые кварталы и неожиданно много зелени.",
     variants: [
@@ -705,6 +771,7 @@ const ROUTES = [
   {
     name: "Тюмень",
     grad: "linear-gradient(135deg,#3a2a1a,#7a5a30)",
+    cat: "История",
     tags: ["Дерево","Улицы","Кофе"],
     short: "Резные деревянные дома, тихий центр и набережная — компактно и без спешки.",
     variants: [
@@ -737,6 +804,7 @@ const ROUTES = [
   {
     name: "Иркутск",
     grad: "linear-gradient(135deg,#16382a,#2f7a52)",
+    cat: "Природа",
     tags: ["Дерево","Байкал","История"],
     short: "Старый сибирский центр с резными домами. Отдельно — маршрут к Байкалу на день.",
     variants: [
@@ -769,6 +837,7 @@ const ROUTES = [
   {
     name: "Ярославль",
     grad: "linear-gradient(135deg,#26313f,#5a708a)",
+    cat: "История",
     tags: ["Кремль","Волга","Роспись"],
     short: "Тысячелетний город на Волге: кремль, храмы с росписью и тихие улицы в стороне от туристов.",
     variants: [
@@ -801,10 +870,9 @@ const ROUTES = [
 ];
 
 /* ===== ОТЗЫВЫ =====
-   Пока массив пуст — на сайте показывается честная плашка-приглашение.
+   Пока массив пуст — на сайте честная плашка-приглашение.
    Когда появятся реальные отзывы покупателей, добавляйте их сюда:
-   { name:"Имя покупателя", city:"Казань", stars:5, text:"Текст отзыва..." }
-   Реальные отзывы собирайте у клиентов в Telegram — и вставляйте дословно. */
+   { name:"Имя", city:"Казань", stars:5, text:"Текст отзыва..." } */
 const REVIEWS = [];
 
 const CITY_ICONS = ["🕌","⭐","🌉","🪜","🏭","🧭","🌴","🏰","⚓","🏛️","🌊","🌄","🏘️","🌲","🕯️"];
@@ -816,6 +884,7 @@ const mTitle = document.getElementById('mTitle');
 const mMeta = document.getElementById('mMeta');
 const mList = document.getElementById('mList');
 const revGrid = document.getElementById('revGrid');
+const moreWrap = document.getElementById('moreWrap');
 
 const SHOW_FIRST = 6;
 
@@ -848,14 +917,39 @@ if(REVIEWS.length){
 } else {
   revGrid.innerHTML =
     '<div class="r-empty">Отзывы скоро появятся здесь.<br>Прошли маршрут? Напишите впечатления в ' +
-    '<a href="https://t.me/Ggeeeeeer" style="color:var(--acc);font-weight:700">Telegram</a>' +
+    '<a href="https://t.me/Ggeeeeeer">Telegram</a>' +
     ' — опубликую ваш отзыв на сайте.</div>';
 }
 
+/* ===== Фильтры ===== */
+const chips = document.querySelectorAll('.chip');
+let expanded = false;
+
+function applyFilter(cat){
+  grid.querySelectorAll('.card').forEach(function(c,i){
+    if(cat === 'all'){
+      c.classList.toggle('hidden', i >= SHOW_FIRST && !expanded);
+      if(i >= SHOW_FIRST && expanded) c.classList.add('appear');
+    } else {
+      c.classList.toggle('hidden', ROUTES[i].cat !== cat);
+      c.classList.remove('appear');
+    }
+  });
+  moreWrap.style.display = (cat === 'all') ? 'flex' : 'none';
+}
+
+chips.forEach(function(ch){
+  ch.addEventListener('click', function(){
+    chips.forEach(function(x){ x.classList.remove('on'); });
+    ch.classList.add('on');
+    applyFilter(ch.dataset.cat);
+  });
+});
+
+/* ===== Показать ещё (только для фильтра «Все») ===== */
 const moreBtn = document.getElementById('moreBtn');
 const moreTxt = document.getElementById('moreTxt');
 const moreCnt = document.getElementById('moreCnt');
-let expanded = false;
 
 function updateMore(){
   const hiddenCount = ROUTES.length - SHOW_FIRST;
@@ -891,10 +985,7 @@ moreBtn.addEventListener('click', function(){
   }
 });
 
-document.getElementById('seeAllBtn').addEventListener('click', function(){
-  if(!expanded) expandCities();
-});
-
+document.getElementById('seeAllBtn') && 0;
 updateMore();
 
 function openCity(i){
