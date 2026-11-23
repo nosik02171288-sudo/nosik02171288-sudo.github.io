@@ -165,6 +165,37 @@ h2{font-size:30px;letter-spacing:-.02em;font-weight:900}
 .card.hidden{display:none}
 .card.appear{animation:cardIn .5s ease-out backwards}
 
+/* ===== Блок «Выберите мессенджер» ===== */
+.msg-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.msg-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:8px;
+  padding:34px 30px;text-align:center;position:relative;
+  box-shadow:0 2px 0 var(--line),0 14px 30px rgba(42,39,64,.1);
+  transition:transform .3s ease,box-shadow .3s;
+  text-decoration:none;display:block;
+}
+.msg-card:nth-child(odd){transform:rotate(-.8deg)}
+.msg-card:nth-child(even){transform:rotate(.8deg)}
+.msg-card:hover{transform:rotate(0) translateY(-6px);box-shadow:0 2px 0 var(--line),0 24px 44px rgba(42,39,64,.2)}
+.msg-card:active{transform:scale(.98)}
+.msg-card .m-ico{
+  width:64px;height:64px;border-radius:50%;margin:0 auto 16px;
+  display:flex;align-items:center;justify-content:center;font-size:30px;
+  box-shadow:0 6px 16px rgba(42,39,64,.25);
+}
+.msg-card.tg .m-ico{background:linear-gradient(135deg,#2ba3e0,#229ED9);color:#fff}
+.msg-card.mx .m-ico{background:linear-gradient(135deg,#6c4df0,#e8558f);color:#fff}
+.msg-card h3{font-size:21px;font-weight:900;margin-bottom:6px}
+.msg-card p{color:var(--mut);font-size:14.5px;max-width:300px;margin:0 auto 20px}
+.msg-card .m-go{
+  display:inline-block;padding:11px 26px;border-radius:12px;
+  font-weight:800;font-size:14.5px;transition:transform .25s ease;
+}
+.msg-card.tg .m-go{background:var(--sun);color:#5a4300;box-shadow:0 3px 0 #a8761a}
+.msg-card.mx .m-go{background:var(--ink);color:#fff;box-shadow:0 3px 0 #14122a}
+.msg-card:hover .m-go{transform:translateY(-2px)}
+@media (max-width:640px){.msg-grid{grid-template-columns:1fr}}
+
 /* ===== Отзывы ===== */
 .reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
 .review{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:24px;position:relative;
@@ -342,6 +373,7 @@ body.locked{overflow:hidden}
     <a href="#" class="logo">🗺️ Маршруты</a>
     <nav class="nav">
       <a href="#routes">Города</a>
+      <a href="#contact">Связаться</a>
       <a href="#reviews">Отзывы</a>
       <a href="tel:+79674697215">+7 967 469-72-15</a>
     </nav>
@@ -383,6 +415,27 @@ body.locked{overflow:hidden}
     <div class="cards" id="grid"></div>
     <div class="more-wrap">
       <button class="more-btn" id="moreBtn"><span id="moreTxt">Показать ещё города</span><span class="cnt" id="moreCnt"></span></button>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">✦</span><h2 class="wavy">Напишите мне в мессенджер</h2><span class="sec-line"></span></div>
+    <p class="sub">Отвечаю быстро в обоих. Выберите, где вам удобнее.</p>
+    <div class="msg-grid">
+      <a class="msg-card tg" href="https://t.me/Ggeeeeeer">
+        <div class="m-ico">✈️</div>
+        <h3>Telegram</h3>
+        <p>Самый быстрый способ. Пришлите город и даты — предложу варианты маршрута прямо в чате.</p>
+        <span class="m-go">Открыть Telegram →</span>
+      </a>
+      <a class="msg-card mx" href="https://max.ru/u/f9LHodD0cOJy_Cv_Sq4Q0EkIPYHQ8mHcrpac-SOiPwfdPv_yPWw21J4kkuw">
+        <div class="m-ico">💬</div>
+        <h3>MAX</h3>
+        <p>Если вы в MAX — пишите туда, всё то же самое: обсудим маршрут, пожелания и цену.</p>
+        <span class="m-go">Открыть MAX →</span>
+      </a>
     </div>
   </div>
 </section>
