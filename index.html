@@ -152,9 +152,9 @@ h2{font-size:30px;letter-spacing:-.02em;font-weight:900}
 .cat .actions{display:flex;gap:10px;flex-wrap:wrap}
 .cat .actions .btn{padding:12px 22px;font-size:14.5px}
 
-/* ===== Сетка городов ===== */
-#stdBlock,#kidsBlock{display:none;margin-top:48px}
-#stdBlock.show,#kidsBlock.show{display:block;animation:fadeUp .5s ease-out both}
+/* ===== Сетки городов ===== */
+#stdBlock,#kidsBlock,#barBlock,#romBlock{display:none;margin-top:48px}
+#stdBlock.show,#kidsBlock.show,#barBlock.show,#romBlock.show{display:block;animation:fadeUp .5s ease-out both}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px}
 .card{
   position:relative;display:flex;flex-direction:column;text-align:left;
@@ -429,7 +429,7 @@ body.locked{overflow:hidden}
       </div>
       <div class="hero-stats">
         <div class="hstat"><b>15</b><span>готовых городов</span></div>
-        <div class="hstat"><b>40+</b><span>маршрутов внутри</span></div>
+        <div class="hstat"><b>60+</b><span>маршрутов внутри</span></div>
         <div class="hstat"><b>от 70 ₽</b><span>цена маршрута</span></div>
       </div>
     </div>
@@ -487,12 +487,11 @@ body.locked{overflow:hidden}
           18+ через бары
         </div>
         <div class="body">
-          <p>Вечерние маршруты по барным кварталам: узнаете, где пили писатели и революционеры, какой коктейль изобрели в этом городе и где бармен до сих пор хранит рецепт столетней давности. Между барами — исторические точки, чтобы к третьей стопе вы уже не просто гуляли, а жили в городе. Только для взрослых, и по здравому расчёту: в маршрут встроены места, где можно и закусить.</p>
+          <p>Вечерние маршруты по барным кварталам: узнаете, где пили писатели и революционеры, какой коктейль изобрели в этом городе и где бармен до сих пор хранит рецепт столетней давности. Между барами — исторические точки, чтобы к третьей стопе вы уже не просто гуляли, а жили в городе. В маршрут встроены места, где можно и закусить.</p>
           <div class="tags"><span class="tag">18+</span><span class="tag">вечерние</span><span class="tag">истории с привкусом</span></div>
-          <div class="foot"><span class="big">города — по запросу</span><span>цена — по запросу</span></div>
+          <div class="foot"><span class="big">10 городов · 20 маршрутов</span><span>от 150 ₽</span></div>
           <div class="actions">
-            <a class="btn sun" href="https://t.me/Ggeeeeeer">Запросить в Telegram</a>
-            <a class="btn" href="https://max.ru/u/f9LHodD0cOJy_Cv_Sq4Q0EkIPYHQ8mHcrpac-SOiPwfdPv_yPWw21J4kkuw">MAX</a>
+            <button class="btn sun" id="barBtn">Посмотреть</button>
           </div>
         </div>
       </div>
@@ -506,10 +505,9 @@ body.locked{overflow:hidden}
         <div class="body">
           <p>Маршруты для двоих: тихие набережные, смотровые с лучшим закатом, мосты для замков и переулки, где никто не мешает разговаривать. В финале — уютное место с десертом и видом. Подходит для первого свидания, годовщины или предложения: скажите повод — подберу точку, где стоит встать на одно колено.</p>
           <div class="tags"><span class="tag">для двоих</span><span class="tag">закаты</span><span class="tag">места для фото</span></div>
-          <div class="foot"><span class="big">города — по запросу</span><span>цена — по запросу</span></div>
+          <div class="foot"><span class="big">10 городов · 20 маршрутов</span><span>от 150 ₽</span></div>
           <div class="actions">
-            <a class="btn sun" href="https://t.me/Ggeeeeeer">Запросить в Telegram</a>
-            <a class="btn" href="https://max.ru/u/f9LHodD0cOJy_Cv_Sq4Q0EkIPYHQ8mHcrpac-SOiPwfdPv_yPWw21J4kkuw">MAX</a>
+            <button class="btn sun" id="romBtn">Посмотреть</button>
           </div>
         </div>
       </div>
@@ -533,6 +531,26 @@ body.locked{overflow:hidden}
       <div class="cards" id="kidsGrid"></div>
       <div class="more-wrap">
         <button class="more-btn" id="kidsMoreBtn"><span id="kidsMoreTxt">Показать ещё города</span><span class="cnt" id="kidsMoreCnt"></span></button>
+      </div>
+    </div>
+
+    <!-- Раскрывающийся список городов «18+ через бары» -->
+    <div id="barBlock">
+      <div class="sec-head" style="margin-top:12px"><span class="sec-num">01.3</span><h2 class="wavy">18+ через бары: города</h2><span class="sec-line"></span></div>
+      <p class="sub">Нажмите на открытку — внутри большой вечер по барам и короткий вариант «на один час».</p>
+      <div class="cards" id="barGrid"></div>
+      <div class="more-wrap">
+        <button class="more-btn" id="barMoreBtn"><span id="barMoreTxt">Показать ещё города</span><span class="cnt" id="barMoreCnt"></span></button>
+      </div>
+    </div>
+
+    <!-- Раскрывающийся список городов «Романтика» -->
+    <div id="romBlock">
+      <div class="sec-head" style="margin-top:12px"><span class="sec-num">01.4</span><h2 class="wavy">Романтика: города</h2><span class="sec-line"></span></div>
+      <p class="sub">Нажмите на открытку — внутри большой маршрут на весь вечер и короткий «свидание на час».</p>
+      <div class="cards" id="romGrid"></div>
+      <div class="more-wrap">
+        <button class="more-btn" id="romMoreBtn"><span id="romMoreTxt">Показать ещё города</span><span class="cnt" id="romMoreCnt"></span></button>
       </div>
     </div>
   </div>
@@ -1144,6 +1162,94 @@ const KIDS_ROUTES = [
   ]}
 ];
 
+/* ===== 18+ ЧЕРЕЗ БАРЫ: 10 городов, по 2 маршрута ===== */
+const BAR_ROUTES = [
+  { name:"Казань", grad:"linear-gradient(135deg,#4a2038,#8a3a6e)", tags:["Бары","Кухня","История"], short:"Вечер по барам старой Казани: где пили поэт Бальмонт, где изобрели «татарский мохито» и где до сих пор наливают за песню.", variants:[
+    { title:"Казань через бары (большая)", points:10, price:"250 руб.", time:"3–4 ч", includes:["Бары и коктейли","Закуски по пути","Истории про бармена","Тихие места"], about:"Вечер начинается от Кремля, где стоят старинные пушки и по легенде молились до ночных бдений. Дальше — пешеходная Баумана: знаменитый бар «Соловьиные ночи», легендарный «Республика» и татарский коктейль «Каймак». Между барами — смотровые и фонтаны, где можно чуть отдышаться и поесть. Финал — уютная закусочная на Баумана с татарскими блюдами." },
+    { title:"Казань через бары (короткая)", points:5, price:"150 руб.", time:"1,5–2 ч", includes:["Два бара","Одна закусочная","Истории"], about:"Короткий вечер: один бар в старом центре, один на набережной с видом на воду, и финал в кафе с татарскими закусками. Идеально, если у вас всего пара часов перед автобусом." }
+  ]},
+  { name:"Москва", grad:"linear-gradient(135deg,#5b2b3a,#a84a5f)", tags:["Бары","Крыши","Водка"], short:"Бар-хоппинг от Патриарших до Китай-города: где пили Бродский, где родился коктейль «Бесогон» и где играют джаз до утра.", variants:[
+    { title:"Москва через бары (большая)", points:12, price:"400 руб.", time:"4–5 ч", includes:["Классика и неомодернизм","Крыши","Тихие переулки","Кофе наутро"], about:"Маршрут для настоящих «барных охотников»: от знаменитых коктейльных баров на Патриарших прудах до джаз-баров на Пятницкой. Между стопами — исторические особняки, дворы-колодцы и переулки, где в 1920-е собирались поэты. Внутри — истории про водку, «Мухоморы» и легендарный «Пушкин», который держит планку до сих пор. В конце — кафе, где можно сесть и съесть бургер." },
+    { title:"Москва через бары (короткая)", points:5, price:"200 руб.", time:"1,5–2 ч", includes:["Два бара","Одно кафе","Легенды"], about:"Короткий вечер: бар на Патриарших, один на Чистых прудах и финальное кафе с видом на бульвар. Все истории — только самое главное, без долгих лекций." }
+  ]},
+  { name:"Санкт-Петербург", grad:"linear-gradient(135deg,#1f4b52,#3a8b96)", tags:["Бары","Вода","Джаз"], short:"Вечер от Невского до Кронверкской: где пили Высоцкий, где до сих пор наливают за стихи и где наливают «с колом».", variants:[
+    { title:"Питер через бары (большой)", points:11, price:"350 руб.", time:"4–5 ч", includes:["Классика и джаз","Крыши","Виды на каналы","Кофе наутро"], about:"Маршрут по барному Петербургу: от легендарного «Фиделя» на Рубинштейна до джаз-бара на Итальянской. Между стопами — набережные каналов, где в XVIII веке стояли кофейни, и особняки, где пили Пушкин и Достоевский. Внутри — история про «пиво с колом» и легенды про «белые ночи без сна»." },
+    { title:"Питер через бары (короткий)", points:5, price:"150 руб.", time:"1,5–2 ч", includes:["Два бара","Виды на Неву","Легенды"], about:"Короткий вечер: бар на Рубинштейна, один на набережной с видом на Неву и кафе с десертами. Только главные истории, чтобы успеть к последнему метро." }
+  ]},
+  { name:"Нижний Новгород", grad:"linear-gradient(135deg,#4a3a1f,#96803a)", tags:["Бары","Виды","Кофе"], short:"Вечер по Большой Покровской: где пили Гorky, где стоял первый бар города и где открытый бар на крыше.", variants:[
+    { title:"Нижний через бары (большой)", points:10, price:"300 руб.", time:"3–4 ч", includes:["Бары и крыши","Виды на Оку","Закуски","Истории города"], about:"Маршрут по барной стороне Нижнего: от классических пабов на Большой Покровской до модных крыш на Верхне-Волжской набережной. Между стопами — вид на Волгу и старинные купеческие дома, где пили Горький и его друзья. Внутри — легенда про первый бар города и коктейль «Чкаловский пролёт»." },
+    { title:"Нижний через бары (короткий)", points:5, price:"150 руб.", time:"1,5 ч", includes:["Два бара","Смотровая","Легенды"], about:"Короткий вечер: бар на Покровской, один на набережной с видом на реку и финал в кафе с видом на закат." }
+  ]},
+  { name:"Екатеринбург", grad:"linear-gradient(135deg,#3a2b4a,#6b4a96)", tags:["Бары","Музыка","Кофе"], short:"Вечер от Вайнера до Урала: где пили Высоцкий, где изобрели «уральский грув» и где играет джаз на крыше.", variants:[
+    { title:"Екатеринбург через бары (большой)", points:10, price:"250 руб.", time:"3–4 ч", includes:["Бары и живая музыка","Тихие переулки","Закуски","Легенды"], about:"Маршрут по вечернему Екатеринбургу: от пабов на пешеходном Вайнера до барных подвалов на 8 Марта. Между стопами — конструктивистские кварталы и дома, где пили Высоцкий. Внутри — истории про уральское пиво, барменов-легенд и первые вечерние клубы города." },
+    { title:"Екатеринбург через бары (короткий)", points:5, price:"100 руб.", time:"1,5 ч", includes:["Два бара","Легенды","Закуски"], about:"Короткий вечер: бар на Вайнера, один на набережной пруда и финал в кафе с местной кухней." }
+  ]},
+  { name:"Сочи", grad:"linear-gradient(135deg,#0f4a52,#2a9aa8)", tags:["Бары","Море","Коктейли"], short:"Вечер от порта до Олимпийского парка: коктейли с видом на море и бар, где пили Верещагин.", variants:[
+    { title:"Сочи через бары (большой)", points:10, price:"300 руб.", time:"3–4 ч", includes:["Коктейли с видом","Море","Тихие переулки","Легенды"], about:"Маршрут вдоль моря: от баров Морского порта до вечерних крыш на Навагинской. Между стопами — тихие южные переулки с магнолиями и смотровые с видом на закат. Внутри — истории про «сочинский мохито» и легенды о баре, где пили писатели-курортники." },
+    { title:"Сочи через бары (короткий)", points:5, price:"150 руб.", time:"1,5 ч", includes:["Два бара","Вид на море","Закуски"], about:"Короткий вечер: бар у порта, один на набережной и финал в кафе с видом на волны." }
+  ]},
+  { name:"Калининград", grad:"linear-gradient(135deg,#5a3a1a,#b07a2a)", tags:["Бары","Пиво","История"], short:"Вечер по Кёнигсбергу: где пили Кант, где варят «восточно-прусское» пиво и где бармен рассказывает легенды замка.", variants:[
+    { title:"Калининград через бары (большой)", points:10, price:"200 руб.", time:"2,5–3,5 ч", includes:["Бары и пиво","Старые кварталы","Закуски","Истории Кёнигсберга"], about:"Маршрут по барному Калининграду: от пабов на Рыбной деревне до крафтовых баров на проспекте Мира. Между стопами — кирпичные ворота и набережная Преголи. Внутри — истории про пивоварни Кёнигсберга, кантовские вечера и легенды про бар, где до сих пор «наливают по-прусски»." },
+    { title:"Калининград через бары (короткий)", points:5, price:"100 руб.", time:"1,5 ч", includes:["Два бара","Виды на реку","Легенды"], about:"Короткий вечер: бар в Рыбной деревне, один на острове Канта и финал в кафе с видом на собор." }
+  ]},
+  { name:"Новосибирск", grad:"linear-gradient(135deg,#4a2038,#a03a6e)", tags:["Бары","Кофе","Музыка"], short:"Вечер по Красному проспекту: где пили сибирские писатели, где варят крафтовое пиво и где играет джаз в подвале.", variants:[
+    { title:"Новосибирск через бары (большой)", points:10, price:"200 руб.", time:"3 ч", includes:["Бары и крафт","Живая музыка","Закуски","Легенды Сибири"], about:"Маршрут по барному Новосибирску: от пабов на Красном проспекте до подземных баров на Ленина. Между стопами — конструктивистские фасады и Оперный театр с подсветкой. Внутри — истории про сибирский крафт, барменов-легенд и первые рок-клубы города." },
+    { title:"Новосибирск через бары (короткий)", points:5, price:"100 руб.", time:"1,5 ч", includes:["Два бара","Закуски","Легенды"], about:"Короткий вечер: бар на Красном проспекте, один на набережной Оби и финал в кафе с сибирской кухней." }
+  ]},
+  { name:"Самара", grad:"linear-gradient(135deg,#3a3a18,#8a8a30)", tags:["Бары","Волга","Закат"], short:"Вечер по набережной и Ленинградской: коктейли с видом на Волгу и бар, где пили космонавты.", variants:[
+    { title:"Самара через бары (большой)", points:10, price:"200 руб.", time:"3 ч", includes:["Бары и крыши","Виды на Волгу","Закуски","Легенды"], about:"Маршрут по барной Самаре: от пабов на Ленинградской до крыш на набережной. Между стопами — купеческие дома и вид на Волгу на закате. Внутри — легенда про бар, где пили первые космонавты, и про коктейль «Куйбышевский закат»." },
+    { title:"Самара через бары (короткий)", points:5, price:"100 руб.", time:"1,5 ч", includes:["Два бара","Вид на Волгу","Закуски"], about:"Короткий вечер: бар на Ленинградской, один на набережной и финал в кафе с видом на воду." }
+  ]},
+  { name:"Иркутск", grad:"linear-gradient(135deg,#16382a,#2f7a52)", tags:["Бары","Байкал","Кофе"], short:"Вечер по 130-му кварталу: байкальские настойки, бар в деревянном доме и легенды сибирских купцов.", variants:[
+    { title:"Иркутск через бары (большой)", points:10, price:"250 руб.", time:"3 ч", includes:["Бары и настойки","Деревянные кварталы","Закуски","Легенды"], about:"Маршрут по барному Иркутску: от крафтовых баров в 130-м квартале до уютных баров на Нижней набережной. Между стопами — деревянные дома с резьбой и вид на Ангару. Внутри — истории про байкальскую воду, купеческие вечера и легенды про «сибирский виски»." },
+    { title:"Иркутск через бары (короткий)", points:5, price:"100 руб.", time:"1,5 ч", includes:["Два бара","Легенды","Закуски"], about:"Короткий вечер: бар в 130-м квартале, один на набережной и финал в кафе в деревянном доме." }
+  ]}
+];
+
+/* ===== РОМАНТИКА: 10 городов, по 2 маршрута ===== */
+const ROM_ROUTES = [
+  { name:"Казань", grad:"linear-gradient(135deg,#a8305a,#e8558f)", tags:["Закаты","Набережные","Сюрпризы"], short:"Кремлёвская набережная на закате, мост с замками и финал в кафе с видом на огни города.", variants:[
+    { title:"Казань для двоих (большая)", points:11, price:"250 руб.", time:"3–4 ч", includes:["Лучшие закаты","Мост с замками","Тихие места","Финал с десертом"], about:"Маршрут для свидания или годовщины: от Кремля по Кремлёвской набережной, где вечером загорается подсветка, к мосту, на котором вешают замки. Дальше — тихая набережная Кабана с легендой про утонувший город и огни на дне озера. Финал — кафе с панорамными окнами и десертом. Если повод серьёзный — подскажу точку, где встать на одно колено, чтобы это выглядело красиво и не при людях." },
+    { title:"Казань для двоих (короткая)", points:5, price:"150 руб.", time:"1,5 ч", includes:["Одна смотровая","Мост с замками","Кафе с видом"], about:"Короткое свидание: смотровая у Кремля, мост с замками, набережная и финал в кафе с видом на воду. Всё в пешей доступности, без подъёмов." }
+  ]},
+  { name:"Москва", grad:"linear-gradient(135deg,#8a3a5a,#e8558f)", tags:["Крыши","Сады","Десерты"], short:"Патриаршие, тихие переулки и крыша с видом на МГУ — маршрут для первого свидания или предложения.", variants:[
+    { title:"Москва для двоих (большая)", points:12, price:"400 руб.", time:"4–5 ч", includes:["Патриаршие пруды","Тихие сады","Крыши","Финал с десертом"], about:"Романтический маршрут по «серебряному веку» Москвы: Патриаршие пруды, где встречались Блок и Бальмонт, тихие переулки Остоженки, сад Эрмитажа и смотровая с видом на город. Между точками — особняки с историями любви, дворы-колодцы, где никто не мешает разговаривать. Финал — десерт в кафе с видом на вечернюю подсветку. Могу подсказать точку для предложения — подберу под ваш стиль." },
+    { title:"Москва для двоих (короткая)", points:5, price:"200 руб.", time:"1,5 ч", includes:["Патриаршие","Одна смотровая","Кафе с десертом"], about:"Короткое свидание: Патриаршие пруды, тихий переулок, смотровая и кафе с десертом. Без долгих лекций — только атмосфера и разговор." }
+  ]},
+  { name:"Санкт-Петербург", grad:"linear-gradient(135deg,#1f4b6e,#5a8bb0)", tags:["Мосты","Вода","Белые ночи"], short:"Набережные каналов, развод мостов и финал на крыше с видом на Н stopа — маршрут для влюблённых.", variants:[
+    { title:"Питер для двоих (большой)", points:11, price:"350 руб.", time:"4–5 ч", includes:["Каналы","Мосты","Крыши","Финал с десертом"], about:"Романтический Питер: набережная Мойки, где отражаются фонари, мост Банковский с грифонами, Новая Голландия с вечерней подсветкой и смотровая на крыше с видом на Неву. Между точками — переулки, где Пушкин встречался с Натали, и тихие дворы, где можно разговаривать без свидетелей. Финал — десерт с видом на воду." },
+    { title:"Питер для двоих (короткий)", points:5, price:"150 руб.", time:"1,5 ч", includes:["Один канал","Мост","Кафе"], about:"Короткое свидание: набережная Мойки, мост с грифонами, одна смотровая и кафе с десертом." }
+  ]},
+  { name:"Нижний Новгород", grad:"linear-gradient(135deg,#4a3a1f,#b0803a)", tags:["Волга","Закаты","Канатка"], short:"Верхне-Волжская набережная на закате, канатка над Волгой и финал в кафе с видом на реку.", variants:[
+    { title:"Нижний для двоих (большой)", points:10, price:"300 руб.", time:"3–4 ч", includes:["Закат над Волгой","Канатка","Смотровые","Финал с десертом"], about:"Маршрут для двоих: от Кремля по Большой Покровской, спуск по Чкаловской лестнице (ровно наполовину!) и прогулка по Нижне-Волжской набережной. Потом — канатная дорога над Волгой с видом на закат — один из самых красивых видов города. Финал — кафе на Верхне-Волжской с панорамой реки." },
+    { title:"Нижний для двоих (короткий)", points:5, price:"150 руб.", time:"1,5 ч", includes:["Смотровая","Набережная","Кафе"], about:"Короткое свидание без спусков: Кремль, смотровая, набережная и кафе с видом на Волгу." }
+  ]},
+  { name:"Екатеринбург", grad:"linear-gradient(135deg,#4a2b6a,#8a5ae8)", tags:["Пруд","Мостики","Север"], short:"Плотинка на закате, набережная пруда и финал на крыше с видом на вечерний город.", variants:[
+    { title:"Екатеринбург для двоих (большой)", points:10, price:"250 руб.", time:"3–4 ч", includes:["Плотинка","Мостики","Крыши","Финал с десертом"], about:"Романтический Екатеринбург: Плотинка с подсветкой, набережная пруда с фонарями, пешеходный Вайнера без машин и смотровая на Высоцком с видом на весь город. Между точками — тихие переулки с конструктивистскими домами и скверы, где вечером пусто и спокойно. Финал — десерт с видом на ночные огни." },
+    { title:"Екатеринбург для двоих (короткий)", points:5, price:"100 руб.", time:"1,5 ч", includes:["Плотинка","Смотровая","Кафе"], about:"Короткое свидание: Плотинка, набережная, одна смотровая и кафе с десертом." }
+  ]},
+  { name:"Сочи", grad:"linear-gradient(135deg,#0f6a5a,#2ab8a8)", tags:["Море","Закаты","Пальмы"], short:"Набережная на закате, смотровая над морем и финал с вином на террасе.", variants:[
+    { title:"Сочи для двоих (большой)", points:10, price:"300 руб.", time:"3–4 ч", includes:["Море","Закаты","Смотровые","Финал с вином"], about:"Романтический Сочи: от Морского порта по набережной с пальмами и магнолиями, подъём на смотровую с видом на море и закат, тихие южные переулки с магнолиями. Между точками — легенды про «Ривьеру» и место, где снимали первый советский мюзикл. Финал — терраса с вином и видом на Чёрное море." },
+    { title:"Сочи для двоих (короткий)", points:5, price:"150 руб.", time:"1,5 ч", includes:["Набережная","Закат","Кафе с видом"], about:"Короткое свидание: набережная, смотровая на закате и кафе с видом на море." }
+  ]},
+  { name:"Калининград", grad:"linear-gradient(135deg,#6a3a1a,#c0802a)", tags:["Собор","Вода","Мостики"], short:"Собор Канта на острове, набережная Преголи и финал в кафе с видом на старые мосты.", variants:[
+    { title:"Калининград для двоих (большой)", points:10, price:"200 руб.", time:"3 ч", includes:["Остров Канта","Набережная","Мостики","Финал с десертом"], about:"Романтический Калининград: от Кафедрального собора на острове Канта по набережной Преголи, Рыбная деревня с подсветкой, Медовый мост и смотровая с видом на старые городские ворота. Между точками — истории про кёнигсбергскую любовь и легенды о принцессе Эльбинге. Финал — кафе с видом на собор и вечернюю воду." },
+    { title:"Калининград для двоих (короткий)", points:5, price:"100 руб.", time:"1,5 ч", includes:["Собор","Мост","Кафе"], about:"Короткое свидание: собор Канта, Медовый мост, набережная и кафе с видом на воду." }
+  ]},
+  { name:"Новосибирск", grad:"linear-gradient(135deg,#6a2040,#c05a8a)", tags:["Обь","Театр","Парки"], short:"Набережная Оби на закате, Оперный театр с подсветкой и финал в кафе с видом на реку.", variants:[
+    { title:"Новосибирск для двоих (большой)", points:10, price:"200 руб.", time:"3 ч", includes:["Обь","Театр","Парки","Финал с десертом"], about:"Романтический Новосибирск: от Оперного театра с вечерней подсветкой по Красному проспекту, Первомайский сквер с фонарями, спуск к набережной Оби и прогулка вдоль воды на закате. Между точками — тихие аллеи Центрального парка и смотровые с видом на город. Финал — кафе с панорамой реки." },
+    { title:"Новосибирск для двоих (короткий)", points:5, price:"100 руб.", time:"1,5 ч", includes:["Театр","Набережная","Кафе"], about:"Короткое свидание: Оперный театр, сквер, набережная и кафе с видом на Обь." }
+  ]},
+  { name:"Самара", grad:"linear-gradient(135deg,#5a5a20,#c0c050)", tags:["Волга","Пляж","Закаты"], short:"Набережная Волги на закате, длинная прогулка вдоль воды и финал в кафе с видом на реку.", variants:[
+    { title:"Самара для двоих (большой)", points:10, price:"200 руб.", time:"3 ч", includes:["Волга","Закаты","Смотровые","Финал с десертом"], about:"Романтическая Самара: от Струковского сада по длинной набережной Волги, где вечером загораются фонари, тихие пляжи с ракушками и смотровые с видом на реку. Между точками — купеческие особняки и легенда про «самарский закат» — самый красивый вид на Волгу. Финал — кафе с десертом и видом на воду." },
+    { title:"Самара для двоих (короткий)", points:5, price:"100 руб.", time:"1,5 ч", includes:["Набережная","Закат","Кафе"], about:"Короткое свидание: набережная, одна смотровая и кафе с видом на Волгу." }
+  ]},
+  { name:"Иркутск", grad:"linear-gradient(135deg,#1a5a3a,#3ab878)", tags:["Ангара","Байкал","Дерево"], short:"Набережная Ангары на закате, деревянные кварталы с фонарями и финал в кафе с видом на реку.", variants:[
+    { title:"Иркутск для двоих (большой)", points:10, price:"250 руб.", time:"3 ч", includes:["Ангара","Деревянные дома","Смотровые","Финал с десертом"], about:"Романтический Иркутск: от 130-го квартала по Нижней набережной Ангары, где вечером подсветка отражается в воде, деревянные дома с резьбой в мягких фонарях и смотровая с видом на реку. Между точками — легенды про сибирских купцов, «иркутские огни» и истории любви декабристов. Финал — кафе в деревянном доме с десертом и видом на Ангару." },
+    { title:"Иркутск для двоих (короткий)", points:5, price:"100 руб.", time:"1,5 ч", includes:["Квартал","Смотровая","Кафе"], about:"Короткое свидание: 130-й квартал, набережная, смотровая и кафе в деревянном доме." }
+  ]}
+];
+
 /* ===== ОТЗЫВЫ =====
    Пока массив пуст — на сайте честная плашка-приглашение.
    Когда появятся реальные отзывы покупателей, добавляйте их сюда:
@@ -1152,32 +1258,96 @@ const REVIEWS = [];
 
 const CITY_ICONS = ["🕌","⭐","🌉","🪜","🏭","🧭","🌴","🏰","⚓","🏛️","🌊","🌄","🏘️","🌲","🕯️"];
 const KIDS_ICONS = ["🏰","🎡","🐾","🪁","🦆","🐬","⛵","🚢","🎪","🏖️","🎡","🏗️","🐯","🐻"];
+const BAR_ICONS  = ["🍸","🥃","🍹","🍷","🍺","🥂","☕","🍾","🍸","🥂"];
+const ROM_ICONS  = ["🌹","💗","🌉","🌅","🦢","🌴","🌉","🎭","🌊","🌲"];
 
 /* ===== дальше можно не трогать ===== */
-const grid = document.getElementById('grid');
 const overlay = document.getElementById('overlay');
 const mTitle = document.getElementById('mTitle');
 const mMeta = document.getElementById('mMeta');
 const mList = document.getElementById('mList');
 const revGrid = document.getElementById('revGrid');
-const stdBlock = document.getElementById('stdBlock');
-const stdBtn = document.getElementById('stdBtn');
+
+const SETS = [
+  { key:'std', data:ROUTES,      gridId:'grid',    blockId:'stdBlock', btnId:'stdBtn',  moreId:'moreBtn',  moreTxtId:'moreTxt',  moreCntId:'moreCnt',  icons:CITY_ICONS, label:function(n){return n + ' варианта маршрута';} },
+  { key:'kids', data:KIDS_ROUTES, gridId:'kidsGrid', blockId:'kidsBlock', btnId:'kidsBtn', moreId:'kidsMoreBtn', moreTxtId:'kidsMoreTxt', moreCntId:'kidsMoreCnt', icons:KIDS_ICONS, label:function(n){return n + ' семейных маршрута';} },
+  { key:'bar',  data:BAR_ROUTES,  gridId:'barGrid', blockId:'barBlock', btnId:'barBtn',  moreId:'barMoreBtn', moreTxtId:'barMoreTxt', moreCntId:'barMoreCnt', icons:BAR_ICONS, label:function(n){return n + ' вечерних маршрута';} },
+  { key:'rom',  data:ROM_ROUTES,  gridId:'romGrid', blockId:'romBlock', btnId:'romBtn',  moreId:'romMoreBtn', moreTxtId:'romMoreTxt', moreCntId:'romMoreCnt', icons:ROM_ICONS, label:function(n){return n + ' романтических маршрута';} }
+];
 
 const SHOW_FIRST = 6;
 
-function cardHTML(r, i, hidden){
-  const cheapest = r.variants.reduce(function(a,b){ return a.points <= b.points ? a : b; });
-  return '<button class="card' + (hidden ? ' hidden' : '') + '" data-i="' + i + '">' +
-    '<div class="art" style="background:' + r.grad + '"><span class="ico">' + (CITY_ICONS[i] || "📍") + '</span>' + r.name + '</div>' +
-    '<div class="body">' +
-      '<div class="tags">' + r.tags.map(function(t){ return '<span class="tag">' + t + '</span>'; }).join('') + '</div>' +
-      '<p>' + r.short + '</p>' +
-      '<div class="foot"><span class="price">' + r.variants.length + ' маршрута</span><span>от ' + cheapest.time + '</span></div>' +
-    '</div>' +
-  '</button>';
+function footPrice(variants){
+  const cheapest = variants.reduce(function(a,b){ return a.points <= b.points ? a : b; });
+  return 'от ' + cheapest.price;
 }
 
-grid.innerHTML = ROUTES.map(function(r,i){ return cardHTML(r, i, i >= SHOW_FIRST); }).join('');
+/* Рендер всех четырёх сеток */
+SETS.forEach(function(set){
+  const grid = document.getElementById(set.gridId);
+  const block = document.getElementById(set.blockId);
+  const btn = document.getElementById(set.btnId);
+  const moreBtn = document.getElementById(set.moreId);
+  const moreTxt = document.getElementById(set.moreTxtId);
+  const moreCnt = document.getElementById(set.moreCntId);
+  let open = false, expanded = false;
+
+  grid.innerHTML = set.data.map(function(r,i){
+    return '<button class="card' + (i >= SHOW_FIRST ? ' hidden' : '') + '" data-set="' + set.key + '" data-i="' + i + '">' +
+      '<div class="art" style="background:' + r.grad + '"><span class="ico">' + (set.icons[i] || "📍") + '</span>' + r.name + '</div>' +
+      '<div class="body">' +
+        '<div class="tags">' + r.tags.map(function(t){ return '<span class="tag">' + t + '</span>'; }).join('') + '</div>' +
+        '<p>' + r.short + '</p>' +
+        '<div class="foot"><span class="price">' + r.variants.length + ' маршрута</span><span>' + footPrice(r.variants) + '</span></div>' +
+      '</div>' +
+    '</button>';
+  }).join('');
+
+  btn.addEventListener('click', function(){
+    open = !open;
+    block.classList.toggle('show', open);
+    btn.textContent = open ? 'Свернуть города' : 'Посмотреть';
+    if(open){
+      setTimeout(function(){ block.scrollIntoView({behavior:'smooth', block:'start'}); }, 80);
+    }
+  });
+
+  function updateMore(){
+    const hiddenCount = set.data.length - SHOW_FIRST;
+    moreTxt.textContent = expanded ? 'Скрыть города' : 'Показать ещё города';
+    moreCnt.textContent = expanded ? '' : hiddenCount;
+    moreCnt.style.display = expanded ? 'none' : 'inline-block';
+  }
+
+  function expand(){
+    grid.querySelectorAll('.card.hidden').forEach(function(c,k){
+      c.classList.remove('hidden');
+      c.classList.add('appear');
+      c.style.animationDelay = (k*45) + 'ms';
+    });
+    expanded = true;
+    updateMore();
+  }
+
+  function collapse(){
+    grid.querySelectorAll('.card').forEach(function(c,i){
+      if(i >= SHOW_FIRST){ c.classList.add('hidden'); c.classList.remove('appear'); c.style.animationDelay = ''; }
+    });
+    expanded = false;
+    updateMore();
+  }
+
+  moreBtn.addEventListener('click', function(){
+    if(expanded){
+      collapse();
+      grid.scrollIntoView({behavior:'smooth'});
+    } else {
+      expand();
+    }
+  });
+
+  updateMore();
+});
 
 /* отзывы: если массив пуст — показываем честную плашку */
 if(REVIEWS.length){
@@ -1198,137 +1368,11 @@ if(REVIEWS.length){
     ' — опубликую ваш отзыв на сайте.</div>';
 }
 
-/* ===== Стандартные маршруты: раскрытие ===== */
-let stdOpen = false;
-stdBtn.addEventListener('click', function(){
-  stdOpen = !stdOpen;
-  stdBlock.classList.toggle('show', stdOpen);
-  stdBtn.textContent = stdOpen ? 'Свернуть города' : 'Посмотреть';
-  if(stdOpen){
-    setTimeout(function(){
-      stdBlock.scrollIntoView({behavior:'smooth', block:'start'});
-    }, 80);
-  }
-});
-
-const moreBtn = document.getElementById('moreBtn');
-const moreTxt = document.getElementById('moreTxt');
-const moreCnt = document.getElementById('moreCnt');
-let expanded = false;
-
-function updateMore(){
-  const hiddenCount = ROUTES.length - SHOW_FIRST;
-  moreTxt.textContent = expanded ? 'Скрыть города' : 'Показать ещё города';
-  moreCnt.textContent = expanded ? '' : hiddenCount;
-  moreCnt.style.display = expanded ? 'none' : 'inline-block';
-}
-
-function expandCities(){
-  grid.querySelectorAll('.card.hidden').forEach(function(c,k){
-    c.classList.remove('hidden');
-    c.classList.add('appear');
-    c.style.animationDelay = (k*45) + 'ms';
-  });
-  expanded = true;
-  updateMore();
-}
-
-function collapseCities(){
-  grid.querySelectorAll('.card').forEach(function(c,i){
-    if(i >= SHOW_FIRST){ c.classList.add('hidden'); c.classList.remove('appear'); c.style.animationDelay = ''; }
-  });
-  expanded = false;
-  updateMore();
-}
-
-moreBtn.addEventListener('click', function(){
-  if(expanded){
-    collapseCities();
-    document.getElementById('grid').scrollIntoView({behavior:'smooth'});
-  } else {
-    expandCities();
-  }
-});
-
-updateMore();
-
-/* ===== С детьми: рендер и раскрытие ===== */
-const kidsGrid = document.getElementById('kidsGrid');
-const kidsBlock = document.getElementById('kidsBlock');
-const kidsBtn = document.getElementById('kidsBtn');
-const kidsMoreBtn = document.getElementById('kidsMoreBtn');
-const kidsMoreTxt = document.getElementById('kidsMoreTxt');
-const kidsMoreCnt = document.getElementById('kidsMoreCnt');
-
-const SHOW_FIRST_KIDS = 6;
-let kidsOpen = false, kidsExpanded = false;
-
-function kidsCardHTML(r, i, hidden){
-  return '<button class="card' + (hidden ? ' hidden' : '') + '" data-k="' + i + '">' +
-    '<div class="art" style="background:' + r.grad + '"><span class="ico">' + (KIDS_ICONS[i] || "🎠") + '</span>' + r.name + '</div>' +
-    '<div class="body">' +
-      '<div class="tags">' + r.tags.map(function(t){ return '<span class="tag">' + t + '</span>'; }).join('') + '</div>' +
-      '<p>' + r.short + '</p>' +
-      '<div class="foot"><span class="price">2 маршрута</span><span>от ' + r.variants[1].price + '</span></div>' +
-    '</div>' +
-  '</button>';
-}
-
-kidsGrid.innerHTML = KIDS_ROUTES.map(function(r,i){ return kidsCardHTML(r, i, i >= SHOW_FIRST_KIDS); }).join('');
-
-kidsBtn.addEventListener('click', function(){
-  kidsOpen = !kidsOpen;
-  kidsBlock.classList.toggle('show', kidsOpen);
-  kidsBtn.textContent = kidsOpen ? 'Свернуть города' : 'Посмотреть';
-  if(kidsOpen){
-    setTimeout(function(){
-      kidsBlock.scrollIntoView({behavior:'smooth', block:'start'});
-    }, 80);
-  }
-});
-
-function updateKidsMore(){
-  const hiddenCount = KIDS_ROUTES.length - SHOW_FIRST_KIDS;
-  kidsMoreTxt.textContent = kidsExpanded ? 'Скрыть города' : 'Показать ещё города';
-  kidsMoreCnt.textContent = kidsExpanded ? '' : hiddenCount;
-  kidsMoreCnt.style.display = kidsExpanded ? 'none' : 'inline-block';
-}
-
-function expandKids(){
-  kidsGrid.querySelectorAll('.card.hidden').forEach(function(c,k){
-    c.classList.remove('hidden');
-    c.classList.add('appear');
-    c.style.animationDelay = (k*45) + 'ms';
-  });
-  kidsExpanded = true;
-  updateKidsMore();
-}
-
-function collapseKids(){
-  kidsGrid.querySelectorAll('.card').forEach(function(c,i){
-    if(i >= SHOW_FIRST_KIDS){ c.classList.add('hidden'); c.classList.remove('appear'); c.style.animationDelay = ''; }
-  });
-  kidsExpanded = false;
-  updateKidsMore();
-}
-
-kidsMoreBtn.addEventListener('click', function(){
-  if(kidsExpanded){
-    collapseKids();
-    kidsGrid.scrollIntoView({behavior:'smooth'});
-  } else {
-    expandKids();
-  }
-});
-
-updateKidsMore();
-
 /* ===== Попап ===== */
-function openCity(i){
-  const r = ROUTES[i];
-  mTitle.textContent = r.name;
-  mMeta.textContent = r.variants.length + ' варианта маршрута';
-  mList.innerHTML = r.variants.map(function(v){
+function openPopup(data, title, meta){
+  mTitle.textContent = title;
+  mMeta.textContent = meta;
+  mList.innerHTML = data.map(function(v){
     const num = v.points ? v.points : '—';
     const numLbl = v.points ? 'точек' : 'под запрос';
     return '<div class="var">' +
@@ -1351,44 +1395,19 @@ function openCity(i){
   document.body.classList.add('locked');
 }
 
-function openKids(i){
-  const r = KIDS_ROUTES[i];
-  mTitle.textContent = r.name;
-  mMeta.textContent = r.variants.length + ' семейных маршрута';
-  mList.innerHTML = r.variants.map(function(v){
-    return '<div class="var">' +
-      '<div class="var-top">' +
-        '<div>' +
-          '<h4>' + v.title + '</h4>' +
-          '<div class="var-sub">' + v.time + ' · ' + v.price + '</div>' +
-        '</div>' +
-        '<div class="var-num">' + v.points + '<small>точек</small></div>' +
-      '</div>' +
-      '<div class="inc">' + v.includes.map(function(x){ return '<span>' + x + '</span>'; }).join('') + '</div>' +
-      '<div class="about">' + v.about + '</div>' +
-      '<div class="btn-row">' +
-        '<a class="btn sun" href="https://t.me/Ggeeeeeer">Заказать в Telegram</a>' +
-        '<a class="btn" href="https://max.ru/u/f9LHodD0cOJy_Cv_Sq4Q0EkIPYHQ8mHcrpac-SOiPwfdPv_yPWw21J4kkuw">Заказать в MAX</a>' +
-      '</div>' +
-    '</div>';
-  }).join('');
-  overlay.classList.add('open');
-  document.body.classList.add('locked');
-}
-
 function closeCity(){
   overlay.classList.remove('open');
   document.body.classList.remove('locked');
 }
 
-grid.addEventListener('click', function(e){
+document.addEventListener('click', function(e){
   const card = e.target.closest('.card');
-  if(card) openCity(+card.dataset.i);
-});
-
-kidsGrid.addEventListener('click', function(e){
-  const card = e.target.closest('.card');
-  if(card) openKids(+card.dataset.k);
+  if(!card) return;
+  const setKey = card.dataset.set;
+  const set = SETS.find(function(s){ return s.key === setKey; });
+  if(!set) return;
+  const r = set.data[+card.dataset.i];
+  openPopup(r.variants, r.name, set.label(r.variants.length));
 });
 
 document.getElementById('closeBtn').addEventListener('click', closeCity);
