@@ -152,9 +152,9 @@ h2{font-size:30px;letter-spacing:-.02em;font-weight:900}
 .cat .actions{display:flex;gap:10px;flex-wrap:wrap}
 .cat .actions .btn{padding:12px 22px;font-size:14.5px}
 
-/* ===== Сетка городов (раскрывается из «Стандартных маршрутов») ===== */
-#stdBlock{display:none;margin-top:48px}
-#stdBlock.show{display:block;animation:fadeUp .5s ease-out both}
+/* ===== Сетка городов ===== */
+#stdBlock,#kidsBlock{display:none;margin-top:48px}
+#stdBlock.show,#kidsBlock.show{display:block;animation:fadeUp .5s ease-out both}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px}
 .card{
   position:relative;display:flex;flex-direction:column;text-align:left;
@@ -475,8 +475,7 @@ body.locked{overflow:hidden}
           <div class="tags"><span class="tag">короткие дистанции</span><span class="tag">загадки для детей</span><span class="tag">места для отдыха</span></div>
           <div class="foot"><span class="big">14 городов · 28 маршрутов</span><span>от 70 до 600 ₽</span></div>
           <div class="actions">
-            <a class="btn sun" href="https://t.me/Ggeeeeeer">Запросить в Telegram</a>
-            <a class="btn" href="https://max.ru/u/f9LHodD0cOJy_Cv_Sq4Q0EkIPYHQ8mHcrpac-SOiPwfdPv_yPWw21J4kkuw">MAX</a>
+            <button class="btn sun" id="kidsBtn">Посмотреть</button>
           </div>
         </div>
       </div>
@@ -524,6 +523,16 @@ body.locked{overflow:hidden}
       <div class="cards" id="grid"></div>
       <div class="more-wrap">
         <button class="more-btn" id="moreBtn"><span id="moreTxt">Показать ещё города</span><span class="cnt" id="moreCnt"></span></button>
+      </div>
+    </div>
+
+    <!-- Раскрывающийся список городов «С детьми» -->
+    <div id="kidsBlock">
+      <div class="sec-head" style="margin-top:12px"><span class="sec-num">01.2</span><h2 class="wavy">С детьми: города</h2><span class="sec-line"></span></div>
+      <p class="sub">Нажмите на открытку — внутри два маршрута: длинный на полдня и короткий, чтобы ребёнок не устал.</p>
+      <div class="cards" id="kidsGrid"></div>
+      <div class="more-wrap">
+        <button class="more-btn" id="kidsMoreBtn"><span id="kidsMoreTxt">Показать ещё города</span><span class="cnt" id="kidsMoreCnt"></span></button>
       </div>
     </div>
   </div>
@@ -1075,6 +1084,66 @@ const ROUTES = [
   }
 ];
 
+/* ===== С ДЕТЬМИ: 14 городов, по 2 маршрута (длинный и короткий) ===== */
+const KIDS_ROUTES = [
+  { name:"Казань", grad:"linear-gradient(135deg,#2b3a6b,#4a5fa8)", tags:["Кремль","Фонтаны","Мороженое"], short:"Кремль, кот на Баумана и набережная с корабликами — без марафона, с остановками на площадках.", variants:[
+    { title:"Казань с детьми (большая)", points:12, price:"250 руб.", time:"3–4 ч", includes:["Площадки по пути","Туалеты","Кафе с детским меню","Легенды про котов"], about:"Каждая точка рассказана как сказка: царица Сююмбике и её падающая башня, кот, который так прославился, что о нём узнала Екатерина II, и утонувшее под водой озеро Кабан с огнями на дне. Между достопримечательностями — детские площадки, туалеты и места, где перекусить эчпочмаком и чак-чаком, чтобы ребёнок не устал и не капризничал. Маршрут проложен по пешеходной Баумана и набережным — всё по тротуарам, без дорог." },
+    { title:"Казань с детьми (короткая)", points:5, price:"100 руб.", time:"1–1,5 ч", includes:["Одна площадка","Одно кафе","Только главное"], about:"Короткий вариант для самых маленьких или капризной погоды: Кремль, смотровая, детская площадка на набережной и финал в кафе с видом на реку. Ребёнок успеет поиграть, а вы — посмотреть главное." }
+  ]},
+  { name:"Москва", grad:"linear-gradient(135deg,#5b2b3a,#a84a5f)", tags:["Парк","Каток","Аттракционы"], short:"Парк Горького: площадка «Салют», пруд с утками, мост с видом на Сити — и никаких очередей.", variants:[
+    { title:"Москва с детьми (большая)", points:12, price:"250 руб.", time:"3–4 ч", includes:["Площадки","Туалеты","Кафе","Загадки для детей"], about:"Большая семейная прогулка по парку Горького и набережным: легендарная площадка «Салют», одна из самых больших в Европе, Пионерский пруд с прирученными утками, скульптуры Музеона, где дети ищут «самого смешного» монумента, и Крымская набережная с качелями и фонтанами, в которые можно прыгать. Все переходы — по паркам и пешеходным набережным, без дорог." },
+    { title:"Москва с детьми (короткая)", points:5, price:"100 руб.", time:"1–1,5 ч", includes:["Площадка","Кафе","Пруд с утками"], about:"Парк Горького за час: главный вход с фонтаном, площадка «Салют», туалет у пруда, кафе «Волна» с детским меню и финал на Андреевском мосту с видом на Сити." }
+  ]},
+  { name:"Санкт-Петербург", grad:"linear-gradient(135deg,#1f4b52,#3a8b96)", tags:["Львы","Эхо","Пирожные"], short:"Арка, в которой кричат, Медный всадник с легендой и кафе со сказочными пирожными.", variants:[
+    { title:"Питер с детьми (большой)", points:11, price:"250 руб.", time:"3–4 ч", includes:["Площадки","Туалеты","Кафе","Легенды города"], about:"Маршрут по центру без машин и толп: Дворцовая площадь, где можно бегать, арка Главного штаба с эхом, Александровский сад с ровными дорожками для колясок, Медный всадник и легенда о том, что пока он стоит на месте — Петербург цел. Финал — пирожные «Буше» и сквер у золотого шпиля Адмиралтейства." },
+    { title:"Питер с детьми (короткий)", points:5, price:"100 руб.", time:"1–1,5 ч", includes:["Площадь","Арка","Кафе"], about:"Короткий вариант: Дворцовая площадь, арка с эхом, туалет в Гостином дворе, кафе с пирожными и финиш у Адмиралтейства со сквером." }
+  ]},
+  { name:"Нижний Новгород", grad:"linear-gradient(135deg,#4a3a1f,#96803a)", tags:["Виды","Площадки","Волга"], short:"Смотровая на Волгу, площадка с видом и канатная дорога — восторг гарантирован.", variants:[
+    { title:"Нижний с детьми (большой)", points:11, price:"250 руб.", time:"3 ч", includes:["Смотровые","Площадки","Туалеты","Кафе"], about:"Маршрут для всей семьи: Верхне-Волжская набережная с лебедями и видом на Волгу, детская площадка прямо над обрывом, Кремль, где можно потрогать старинные пушки, и Чкаловская лестница — детям разрешаем спуститься ровно наполовину, чтобы подъём обратно не стал катастрофой. Всё по тротуарам и набережным." },
+    { title:"Нижний с детьми (короткий)", points:5, price:"100 руб.", time:"1–1,5 ч", includes:["Смотровая","Площадка","Кафе"], about:"Короткий вариант без спусков: площадь Минина, Кремль, смотровая, площадка на набережной и кафе «Селёдка и кофе»." }
+  ]},
+  { name:"Екатеринбург", grad:"linear-gradient(135deg,#3a2b4a,#6b4a96)", tags:["Пруд","Площадки","Муралы"], short:"Плотинка с уточками, скульптуры на Вайнера и площадка у библиотеки.", variants:[
+    { title:"Екатеринбург с детьми (большой)", points:11, price:"200 руб.", time:"3 ч", includes:["Пруд","Площадки","Туалеты","Кафе"], about:"Семейный маршрут вокруг исторического центра: Плотинка с уточками и колесом обозрения, пешеходный Вайнера со скульптурами — дети находят всех: оленя, разных Михалычей, библиотекаршу с книгой. Финал — площадка у Публичной библиотеки. Линия идёт по пешеходникам и набережной пруда." },
+    { title:"Екатеринбург с детьми (короткий)", points:5, price:"70 руб.", time:"1 ч", includes:["Плотинка","Площадка","Кафе"], about:"Короткий вариант: Плотинка, колесо обозрения, Площадь 1905 года, площадка и кафе на пешеходном Вайнера." }
+  ]},
+  { name:"Сочи", grad:"linear-gradient(135deg,#0f4a52,#2a9aa8)", tags:["Море","Пляж","Мороженое"], short:"Морской порт с корабликами, набережная без машин и выход к морю.", variants:[
+    { title:"Сочи с детьми (большой)", points:11, price:"250 руб.", time:"3 ч", includes:["Море","Смотровые","Туалеты","Кафе"], about:"Маршрут вдоль моря: Морской порт с корабликами и башней, пешеходная Навагинская с магазинами мороженого, парк «Ривьера» с колесом обозрения и Деревом Дружбы, плюс выход к пляжу. Всё по пешеходным зонам и набережным." },
+    { title:"Сочи с детьми (короткий)", points:5, price:"100 руб.", time:"1 ч", includes:["Порт","Пляж","Кафе"], about:"Короткий вариант: Морской порт, набережная, выход к морю, туалет на пляже и кафе с видом на волны." }
+  ]},
+  { name:"Калининград", grad:"linear-gradient(135deg,#5a3a1a,#b07a2a)", tags:["Суда","Сувениры","Рыбная деревня"], short:"Кафедральный собор, настоящие корабли у причала и Рыбная деревня с площадкой.", variants:[
+    { title:"Калининград с детьми (большой)", points:11, price:"200 руб.", time:"2–3 ч", includes:["Музей океана","Площадки","Туалеты","Кафе"], about:"Маршрут вокруг острова Канта: Кафедральный собор, мост к Рыбной деревне, Музей Мирового океана с настоящими судами, на которые можно подняться на борт, и набережная Петра Великого. Внутри — легенды про Кёнигсбергский замок, подземные ходы и затонувшие сокровища." },
+    { title:"Калининград с детьми (короткий)", points:5, price:"70 руб.", time:"1–1,5 ч", includes:["Собор","Площадка","Кафе"], about:"Короткий вариант: Кафедральный собор, Рыбная деревня, площадка, туалет и кафе «Парус» с видом на Преголю." }
+  ]},
+  { name:"Владивосток", grad:"linear-gradient(135deg,#1f3550,#4878a8)", tags:["Корабли","Мосты","Сопки"], short:"Корабли в бухте, вид на Золотой мост и настоящая подлодка, которую можно пройти насквозь.", variants:[
+    { title:"Владивосток с детьми (большой)", points:11, price:"200 руб.", time:"2–3 ч", includes:["Корабли","Смотровые","Туалеты","Кафе"], about:"Маршрут по сопкам и набережной: Спортивная гавань с видом на мосты, смотровая у фуникулёра, памятник-подлодка С-56, внутрь которой можно зайти по настоящему корабельному трапу. Внутри — легенды о тиграх на улицах, портах и японских кварталах." },
+    { title:"Владивосток с детьми (короткий)", points:5, price:"70 руб.", time:"1 ч", includes:["Корабли","Площадка","Кафе"], about:"Короткий вариант: Спортивная гавань, подлодка С-56, смотровая, площадка и кафе с видом на бухту." }
+  ]},
+  { name:"Новосибирск", grad:"linear-gradient(135deg,#4a2038,#a03a6e)", tags:["Театр","Зоопарк","Парк"], short:"Оперный театр, зоопарк рядом и парк с колесом обозрения — целый день для ребёнка.", variants:[
+    { title:"Новосибирск с детьми (большой)", points:11, price:"200 руб.", time:"2–3 ч", includes:["Зоопарк рядом","Площадки","Туалеты","Кафе"], about:"Маршрут через центр: Красный проспект, Оперный театр — самый большой в России, про который рассказывают легенду о тайне под куполом, Первомайский сквер с фонтанами и выход на набережную Оби. В парке — детская площадка и колесо обозрения." },
+    { title:"Новосибирск с детьми (короткий)", points:5, price:"70 руб.", time:"1 ч", includes:["Театр","Площадка","Кафе"], about:"Короткий вариант: Оперный театр, сквер с фонтанами, детская площадка, туалет в парке и кафе с видом на Обь." }
+  ]},
+  { name:"Самара", grad:"linear-gradient(135deg,#3a3a18,#8a8a30)", tags:["Пляж","Волга","Бункер"], short:"Набережная Волги, пляж и секретный бункер Сталина, о котором дети будут рассказывать весь год.", variants:[
+    { title:"Самара с детьми (большой)", points:11, price:"200 руб.", time:"2–3 ч", includes:["Пляж","Площадки","Туалеты","Кафе"], about:"Семейный маршрут вдоль Волги: набережная с качелями и корабликами, Струковский сад, бункер Сталина — детям рассказывают легенду о секретном подземном городе на глубине 37 метров, площадка в парке Дружбы, финал с видом на закат на набережной." },
+    { title:"Самара с детьми (короткий)", points:5, price:"70 руб.", time:"1 ч", includes:["Набережная","Площадка","Кафе"], about:"Короткий вариант: набережная Волги, Струковский сад, площадка, туалет и кафе у воды." }
+  ]},
+  { name:"Уфа", grad:"linear-gradient(135deg,#4a1f28,#8a3a45)", tags:["Парк","Виды","Легенды"], short:"Монумент Дружбы, набережная Белой и парк Якутова с колесом обозрения.", variants:[
+    { title:"Уфа с детьми (большой)", points:10, price:"200 руб.", time:"2–3 ч", includes:["Парки","Площадки","Туалеты","Кафе"], about:"Семейный маршрут: Монумент Дружбы, набережная реки Белой, парк Якутова с колесом обозрения и аттракционами, Сад Салавата Юлаева. Между точками — рассказы о Салавате Юлаеве и легенды о золоте Пугачёва в уфимских подземельях." },
+    { title:"Уфа с детьми (короткий)", points:5, price:"70 руб.", time:"1 ч", includes:["Парк","Площадка","Кафе"], about:"Короткий вариант: Монумент Дружбы, набережная, парк Якутова с площадкой и кафе в центре." }
+  ]},
+  { name:"Тюмень", grad:"linear-gradient(135deg,#3a2a1a,#7a5a30)", tags:["Мостики","Площадки","Краны"], short:"Набережная Тюменки с четырьмя ярусами, мостики влюблённых и ресторан в виде огромного крана.", variants:[
+    { title:"Тюмень с детьми (большой)", points:10, price:"150 руб.", time:"2 ч", includes:["Набережная","Площадки","Туалеты","Кафе"], about:"Маршрут по набережной Тюменки: четыре яруса спуска к воде, мостики влюблённых, ресторан в виде огромного портового крана, в кабинке которого, по городской легенде, когда-то жил механик-чудак. Детские площадки и верёвочные городки встречаются вдоль всего пути." },
+    { title:"Тюмень с детьми (короткий)", points:5, price:"70 руб.", time:"1 ч", includes:["Набережная","Площадка","Кафе"], about:"Короткий вариант: Цветной бульвар с фонтаном, набережная, площадка, туалет и кафе на воде." }
+  ]},
+  { name:"Иркутск", grad:"linear-gradient(135deg,#16382a,#2f7a52)", tags:["Бабр","Ангара","Дерево"], short:"Скульптура бабра — тигра с бивнями, набережная Ангары и деревянные кварталы с загадками.", variants:[
+    { title:"Иркутск с детьми (большой)", points:10, price:"200 руб.", time:"2–3 ч", includes:["Площадки","Туалеты","Кафе","Деревянные дома"], about:"Семейный маршрут по 130-му кварталу: скульптура бабра с легендой про «иркутского тигра с бивнями», набережная Ангары, деревянные дома с резьбой, где дети ищут «свои окна». Линия идёт по пешеходной Нижней набережной." },
+    { title:"Иркутск с детьми (короткий)", points:5, price:"70 руб.", time:"1 ч", includes:["Квартал","Площадка","Кафе"], about:"Короткий вариант: 130-й квартал с бабром, смотровая на Ангаре, площадка, туалет и кафе в деревянном доме." }
+  ]},
+  { name:"Ярославль", grad:"linear-gradient(135deg,#26313f,#5a708a)", tags:["Стрелка","Волга","Медведь"], short:"Стрелка с утками, Успенский собор и легенда про медведя, которого одолел топором князь Ярослав.", variants:[
+    { title:"Ярославль с детьми (большой)", points:10, price:"200 руб.", time:"2–3 ч", includes:["Парки","Площадки","Туалеты","Кафе"], about:"Маршрут от Стрелки: слияние Волги и Которосли, легенда про князя Ярослава, который топором победил медведя и основал город, Успенский собор с золотыми куполами, Губернаторский сад с фонтанами и финиш в парке Даманском с аттракционами." },
+    { title:"Ярославль с детьми (короткий)", points:5, price:"70 руб.", time:"1 ч", includes:["Стрелка","Площадка","Кафе"], about:"Короткий вариант: Стрелка, парк на Стрелке, площадка, туалет и кафе «Иоанн Васильевич»." }
+  ]}
+];
+
 /* ===== ОТЗЫВЫ =====
    Пока массив пуст — на сайте честная плашка-приглашение.
    Когда появятся реальные отзывы покупателей, добавляйте их сюда:
@@ -1082,6 +1151,7 @@ const ROUTES = [
 const REVIEWS = [];
 
 const CITY_ICONS = ["🕌","⭐","🌉","🪜","🏭","🧭","🌴","🏰","⚓","🏛️","🌊","🌄","🏘️","🌲","🕯️"];
+const KIDS_ICONS = ["🏰","🎡","🐾","🪁","🦆","🐬","⛵","🚢","🎪","🏖️","🎡","🏗️","🐯","🐻"];
 
 /* ===== дальше можно не трогать ===== */
 const grid = document.getElementById('grid');
@@ -1128,7 +1198,7 @@ if(REVIEWS.length){
     ' — опубликую ваш отзыв на сайте.</div>';
 }
 
-/* ===== Кнопка «Посмотреть» на «Стандартных маршрутах» ===== */
+/* ===== Стандартные маршруты: раскрытие ===== */
 let stdOpen = false;
 stdBtn.addEventListener('click', function(){
   stdOpen = !stdOpen;
@@ -1182,6 +1252,78 @@ moreBtn.addEventListener('click', function(){
 
 updateMore();
 
+/* ===== С детьми: рендер и раскрытие ===== */
+const kidsGrid = document.getElementById('kidsGrid');
+const kidsBlock = document.getElementById('kidsBlock');
+const kidsBtn = document.getElementById('kidsBtn');
+const kidsMoreBtn = document.getElementById('kidsMoreBtn');
+const kidsMoreTxt = document.getElementById('kidsMoreTxt');
+const kidsMoreCnt = document.getElementById('kidsMoreCnt');
+
+const SHOW_FIRST_KIDS = 6;
+let kidsOpen = false, kidsExpanded = false;
+
+function kidsCardHTML(r, i, hidden){
+  return '<button class="card' + (hidden ? ' hidden' : '') + '" data-k="' + i + '">' +
+    '<div class="art" style="background:' + r.grad + '"><span class="ico">' + (KIDS_ICONS[i] || "🎠") + '</span>' + r.name + '</div>' +
+    '<div class="body">' +
+      '<div class="tags">' + r.tags.map(function(t){ return '<span class="tag">' + t + '</span>'; }).join('') + '</div>' +
+      '<p>' + r.short + '</p>' +
+      '<div class="foot"><span class="price">2 маршрута</span><span>от ' + r.variants[1].price + '</span></div>' +
+    '</div>' +
+  '</button>';
+}
+
+kidsGrid.innerHTML = KIDS_ROUTES.map(function(r,i){ return kidsCardHTML(r, i, i >= SHOW_FIRST_KIDS); }).join('');
+
+kidsBtn.addEventListener('click', function(){
+  kidsOpen = !kidsOpen;
+  kidsBlock.classList.toggle('show', kidsOpen);
+  kidsBtn.textContent = kidsOpen ? 'Свернуть города' : 'Посмотреть';
+  if(kidsOpen){
+    setTimeout(function(){
+      kidsBlock.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 80);
+  }
+});
+
+function updateKidsMore(){
+  const hiddenCount = KIDS_ROUTES.length - SHOW_FIRST_KIDS;
+  kidsMoreTxt.textContent = kidsExpanded ? 'Скрыть города' : 'Показать ещё города';
+  kidsMoreCnt.textContent = kidsExpanded ? '' : hiddenCount;
+  kidsMoreCnt.style.display = kidsExpanded ? 'none' : 'inline-block';
+}
+
+function expandKids(){
+  kidsGrid.querySelectorAll('.card.hidden').forEach(function(c,k){
+    c.classList.remove('hidden');
+    c.classList.add('appear');
+    c.style.animationDelay = (k*45) + 'ms';
+  });
+  kidsExpanded = true;
+  updateKidsMore();
+}
+
+function collapseKids(){
+  kidsGrid.querySelectorAll('.card').forEach(function(c,i){
+    if(i >= SHOW_FIRST_KIDS){ c.classList.add('hidden'); c.classList.remove('appear'); c.style.animationDelay = ''; }
+  });
+  kidsExpanded = false;
+  updateKidsMore();
+}
+
+kidsMoreBtn.addEventListener('click', function(){
+  if(kidsExpanded){
+    collapseKids();
+    kidsGrid.scrollIntoView({behavior:'smooth'});
+  } else {
+    expandKids();
+  }
+});
+
+updateKidsMore();
+
+/* ===== Попап ===== */
 function openCity(i){
   const r = ROUTES[i];
   mTitle.textContent = r.name;
@@ -1209,6 +1351,31 @@ function openCity(i){
   document.body.classList.add('locked');
 }
 
+function openKids(i){
+  const r = KIDS_ROUTES[i];
+  mTitle.textContent = r.name;
+  mMeta.textContent = r.variants.length + ' семейных маршрута';
+  mList.innerHTML = r.variants.map(function(v){
+    return '<div class="var">' +
+      '<div class="var-top">' +
+        '<div>' +
+          '<h4>' + v.title + '</h4>' +
+          '<div class="var-sub">' + v.time + ' · ' + v.price + '</div>' +
+        '</div>' +
+        '<div class="var-num">' + v.points + '<small>точек</small></div>' +
+      '</div>' +
+      '<div class="inc">' + v.includes.map(function(x){ return '<span>' + x + '</span>'; }).join('') + '</div>' +
+      '<div class="about">' + v.about + '</div>' +
+      '<div class="btn-row">' +
+        '<a class="btn sun" href="https://t.me/Ggeeeeeer">Заказать в Telegram</a>' +
+        '<a class="btn" href="https://max.ru/u/f9LHodD0cOJy_Cv_Sq4Q0EkIPYHQ8mHcrpac-SOiPwfdPv_yPWw21J4kkuw">Заказать в MAX</a>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  overlay.classList.add('open');
+  document.body.classList.add('locked');
+}
+
 function closeCity(){
   overlay.classList.remove('open');
   document.body.classList.remove('locked');
@@ -1218,6 +1385,12 @@ grid.addEventListener('click', function(e){
   const card = e.target.closest('.card');
   if(card) openCity(+card.dataset.i);
 });
+
+kidsGrid.addEventListener('click', function(e){
+  const card = e.target.closest('.card');
+  if(card) openKids(+card.dataset.k);
+});
+
 document.getElementById('closeBtn').addEventListener('click', closeCity);
 overlay.addEventListener('click', function(e){ if(e.target === overlay) closeCity(); });
 document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeCity(); });
