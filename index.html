@@ -26,7 +26,6 @@ body{
   color:var(--ink);
   font:16.5px/1.65 system-ui,-apple-system,'Segoe UI',sans-serif;
   min-height:100vh;overflow-x:hidden;
-  /* главный фокус: перелив тёмный → светлый */
   background:linear-gradient(180deg,
     #1d1b2e 0%,
     #2c2748 14%,
@@ -38,7 +37,6 @@ body{
   background-attachment:fixed;
   background-color:var(--cream);
 }
-
 .wrap{max-width:1060px;margin:0 auto;padding:0 22px;position:relative;z-index:1}
 
 /* ===== Шапка ===== */
@@ -49,7 +47,7 @@ header .wrap{display:flex;justify-content:space-between;align-items:center;heigh
 .nav a{color:rgba(255,255,255,.7);text-decoration:none;font-weight:700;font-size:14.5px;transition:color .2s}
 .nav a:hover{color:var(--sun)}
 
-/* ===== Кнопки — светлые, «бумажные» ===== */
+/* ===== Кнопки ===== */
 .btn{
   position:relative;overflow:hidden;
   padding:13px 26px;border-radius:14px;
@@ -61,9 +59,10 @@ header .wrap{display:flex;justify-content:space-between;align-items:center;heigh
 }
 .btn:hover{transform:translateY(-3px);box-shadow:0 7px 0 rgba(29,27,46,.9),0 16px 30px rgba(29,27,46,.3)}
 .btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(29,27,46,.9)}
-/* акцентная — подсолнечная */
 .btn.sun{background:var(--sun);box-shadow:0 4px 0 #a8761a,0 10px 22px rgba(29,27,46,.3)}
 .btn.sun:hover{box-shadow:0 7px 0 #a8761a,0 16px 30px rgba(29,27,46,.35)}
+.btn.dark{background:var(--ink);color:#fff;box-shadow:0 4px 0 #14122a,0 10px 22px rgba(29,27,46,.35)}
+.btn.dark:hover{box-shadow:0 7px 0 #14122a,0 16px 30px rgba(29,27,46,.4)}
 
 /* ===== Hero ===== */
 .hero{color:#fff;padding:84px 0 120px;position:relative}
@@ -76,8 +75,6 @@ h1{font-size:clamp(34px,5.8vw,58px);line-height:1.1;letter-spacing:-.03em;font-w
 .hero-actions .btn{box-shadow:0 4px 0 rgba(0,0,0,.55),0 10px 22px rgba(0,0,0,.35)}
 .hero-actions .btn:hover{box-shadow:0 7px 0 rgba(0,0,0,.55),0 16px 30px rgba(0,0,0,.4)}
 .hero-actions .btn:active{box-shadow:0 1px 0 rgba(0,0,0,.55)}
-
-/* стикер-заметка в хиро */
 .note{
   background:#ffe9a3;color:#5a4300;
   padding:16px 18px;max-width:340px;border-radius:4px;
@@ -85,26 +82,24 @@ h1{font-size:clamp(34px,5.8vw,58px);line-height:1.1;letter-spacing:-.03em;font-w
   font-size:14.5px;line-height:1.55;transform:rotate(2.5deg);
   position:relative;animation:fadeUp .7s .4s ease-out both;
 }
-.note::before{ /* скотч */
+.note::before{
   content:"";position:absolute;top:-10px;left:50%;width:80px;height:22px;
   transform:translateX(-50%) rotate(-3deg);
   background:rgba(255,255,255,.45);box-shadow:0 1px 3px rgba(0,0,0,.12);
 }
 .note b{display:block;margin-bottom:4px}
 .note .sign{display:block;text-align:right;margin-top:8px;font-style:italic;opacity:.75}
-
 .hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:44px;align-items:start}
 .hero-stats{display:flex;gap:30px;margin-top:34px;animation:fadeUp .7s .5s ease-out both}
 .hstat b{display:block;font-size:26px;font-weight:900;color:var(--sun)}
 .hstat span{font-size:13px;color:rgba(255,255,255,.7)}
 
-/* ===== Секции в журнальном стиле ===== */
+/* ===== Секции ===== */
 section{padding:64px 0}
 .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px}
 .sec-num{font-size:15px;font-weight:900;color:var(--acc2);letter-spacing:.08em;white-space:nowrap}
 .sec-line{flex:1;border-top:2px dashed var(--line)}
 h2{font-size:30px;letter-spacing:-.02em;font-weight:900}
-/* волнистое «нарисованное» подчёркивание */
 .wavy{position:relative;display:inline-block}
 .wavy::after{
   content:"";position:absolute;left:0;right:0;bottom:-8px;height:8px;
@@ -113,7 +108,53 @@ h2{font-size:30px;letter-spacing:-.02em;font-weight:900}
 }
 .sub{color:var(--mut);margin:14px 0 36px;font-size:16px;max-width:600px}
 
-/* ===== Карточки-«открытки»: повёрнуты, со скотчем ===== */
+/* ===== Карточки-категории ===== */
+.cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+.cat{
+  position:relative;display:flex;flex-direction:column;text-align:left;
+  background:var(--paper);border:1px solid var(--line);border-radius:6px;
+  color:var(--ink);font-family:inherit;padding:0;
+  box-shadow:0 2px 0 var(--line),0 14px 30px rgba(42,39,64,.12);
+  transition:transform .3s ease,box-shadow .3s;
+  animation:cardIn .5s ease-out backwards;
+}
+.cat:nth-child(odd){transform:rotate(-.9deg)}
+.cat:nth-child(even){transform:rotate(.9deg)}
+.cat:nth-child(1){animation-delay:.04s}.cat:nth-child(2){animation-delay:.14s}
+.cat:nth-child(3){animation-delay:.24s}.cat:nth-child(4){animation-delay:.34s}
+@keyframes cardIn{from{opacity:0;transform:translateY(24px)}to{opacity:1}}
+.cat::before{
+  content:"";position:absolute;top:-11px;left:50%;width:86px;height:24px;z-index:2;
+  transform:translateX(-50%) rotate(-2deg);
+  background:rgba(255,255,255,.55);
+  box-shadow:0 1px 3px rgba(42,39,64,.18);
+  border-left:1px dashed rgba(42,39,64,.15);border-right:1px dashed rgba(42,39,64,.15);
+}
+.cat:hover{transform:rotate(0) translateY(-7px);box-shadow:0 2px 0 var(--line),0 22px 40px rgba(42,39,64,.2)}
+.cat .art{
+  position:relative;height:130px;display:flex;align-items:center;gap:14px;padding:18px 20px;
+  font-size:21px;font-weight:900;color:#fff;
+  border-bottom:1px solid var(--line);
+}
+.cat .art .c-ico{
+  width:54px;height:54px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:26px;
+  background:rgba(255,255,255,.92);box-shadow:0 4px 10px rgba(42,39,64,.3);
+  transition:transform .35s ease;
+}
+.cat:hover .c-ico{transform:translateY(-4px) rotate(-10deg) scale(1.1)}
+.cat .body{padding:18px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.cat .body p{color:var(--mut);font-size:14.5px;flex:1}
+.tags{display:flex;gap:7px;flex-wrap:wrap}
+.tag{font-size:12px;font-weight:700;padding:4px 12px;border-radius:100px;border:1px solid var(--line);color:var(--ink);background:var(--cream)}
+.foot{display:flex;justify-content:space-between;align-items:center;border-top:1px dashed var(--line);padding-top:12px;font-size:14px;color:var(--mut);margin-bottom:16px}
+.foot .big{font-weight:900;font-size:16px;color:var(--acc2)}
+.cat .actions{display:flex;gap:10px;flex-wrap:wrap}
+.cat .actions .btn{padding:12px 22px;font-size:14.5px}
+
+/* ===== Сетка городов (раскрывается из «Стандартных маршрутов») ===== */
+#stdBlock{display:none;margin-top:48px}
+#stdBlock.show{display:block;animation:fadeUp .5s ease-out both}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px}
 .card{
   position:relative;display:flex;flex-direction:column;text-align:left;
@@ -127,8 +168,6 @@ h2{font-size:30px;letter-spacing:-.02em;font-weight:900}
 .card:nth-child(even){transform:rotate(1.1deg)}
 .card:nth-child(1){animation-delay:.04s}.card:nth-child(2){animation-delay:.1s}.card:nth-child(3){animation-delay:.16s}
 .card:nth-child(4){animation-delay:.22s}.card:nth-child(5){animation-delay:.28s}.card:nth-child(6){animation-delay:.34s}
-@keyframes cardIn{from{opacity:0;transform:translateY(24px)}to{opacity:1}}
-/* скотч сверху */
 .card::before{
   content:"";position:absolute;top:-11px;left:50%;width:86px;height:24px;z-index:2;
   transform:translateX(-50%) rotate(-2deg);
@@ -145,8 +184,6 @@ h2{font-size:30px;letter-spacing:-.02em;font-weight:900}
 }
 .card .body{padding:16px 18px;display:flex;flex-direction:column;gap:9px;flex:1}
 .card p{color:var(--mut);font-size:14.5px;flex:1}
-.tags{display:flex;gap:7px;flex-wrap:wrap}
-.tag{font-size:12px;font-weight:700;padding:4px 12px;border-radius:100px;border:1px solid var(--line);color:var(--ink);background:var(--cream);transition:background .25s,color .25s}
 .card:hover .tag{background:var(--ink);color:#fff;border-color:var(--ink)}
 .foot{display:flex;justify-content:space-between;align-items:center;border-top:1px dashed var(--line);padding-top:11px;font-size:14px;color:var(--mut)}
 .price{font-weight:900;font-size:15px;white-space:nowrap;color:var(--acc2)}
@@ -165,7 +202,7 @@ h2{font-size:30px;letter-spacing:-.02em;font-weight:900}
 .card.hidden{display:none}
 .card.appear{animation:cardIn .5s ease-out backwards}
 
-/* ===== Блок «Выберите мессенджер» ===== */
+/* ===== Мессенджеры ===== */
 .msg-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .msg-card{
   background:var(--paper);border:1px solid var(--line);border-radius:8px;
@@ -187,10 +224,7 @@ h2{font-size:30px;letter-spacing:-.02em;font-weight:900}
 .msg-card.mx .m-ico{background:linear-gradient(135deg,#6c4df0,#e8558f);color:#fff}
 .msg-card h3{font-size:21px;font-weight:900;margin-bottom:6px}
 .msg-card p{color:var(--mut);font-size:14.5px;max-width:300px;margin:0 auto 20px}
-.msg-card .m-go{
-  display:inline-block;padding:11px 26px;border-radius:12px;
-  font-weight:800;font-size:14.5px;transition:transform .25s ease;
-}
+.msg-card .m-go{display:inline-block;padding:11px 26px;border-radius:12px;font-weight:800;font-size:14.5px;transition:transform .25s ease}
 .msg-card.tg .m-go{background:var(--sun);color:#5a4300;box-shadow:0 3px 0 #a8761a}
 .msg-card.mx .m-go{background:var(--ink);color:#fff;box-shadow:0 3px 0 #14122a}
 .msg-card:hover .m-go{transform:translateY(-2px)}
@@ -227,8 +261,6 @@ h2{font-size:30px;letter-spacing:-.02em;font-weight:900}
 .ps h2{margin-bottom:8px}
 .ps p{color:var(--mut);max-width:560px;margin-bottom:20px}
 .ps-actions{display:flex;gap:12px;flex-wrap:wrap}
-
-/* рукописный постскриптум под финалом */
 .psc{margin-top:26px;font-style:italic;color:var(--mut);font-size:15px;transform:rotate(-.5deg)}
 .psc b{color:var(--ink)}
 
@@ -347,6 +379,7 @@ footer a{color:var(--ink);font-weight:700;text-decoration:none}
 @media (max-width:768px){
   h1{font-size:30px}
   h2{font-size:25px}
+  .cat-grid{grid-template-columns:1fr;gap:22px}
   .cards{grid-template-columns:1fr;gap:22px}
   header .wrap{height:auto;padding:12px 16px;flex-wrap:wrap}
   section{padding:42px 0}
@@ -372,7 +405,7 @@ body.locked{overflow:hidden}
   <div class="wrap">
     <a href="#" class="logo">🗺️ Маршруты</a>
     <nav class="nav">
-      <a href="#routes">Города</a>
+      <a href="#cats">Категории</a>
       <a href="#contact">Связаться</a>
       <a href="#reviews">Отзывы</a>
       <a href="tel:+79674697215">+7 967 469-72-15</a>
@@ -389,9 +422,9 @@ body.locked{overflow:hidden}
     <div>
       <div class="hero-kicker">Пешеходные маршруты в Яндекс Картах</div>
       <h1>Маршруты по городам,<br>в которых интересно</h1>
-      <p class="lead">Если вы планируете путешествие и не знаете, что посмотреть в городе и где красиво погулять, — выберите город из списка ниже. В маршрутах — красивые исторические здания, легенды города и интересные истории. Нужен особый маршрут в другом городе, с вашими предпочтениями? Составлю подробный маршрут в Яндекс Картах и учту все пожелания.</p>
+      <p class="lead">Выберите подходящую категорию ниже: классические прогулки, семейные маршруты, вечерние бары или романтику. В маршрутах — красивые исторические здания, легенды города и интересные истории. Нужен особый маршрут в другом городе? Составлю подробный маршрут в Яндекс Картах и учту все пожелания.</p>
       <div class="hero-actions">
-        <a class="btn sun" href="#routes">Смотреть города →</a>
+        <a class="btn sun" href="#cats">Выбрать категорию →</a>
         <a class="btn" href="https://t.me/Ggeeeeeer">Обсудить в Telegram</a>
       </div>
       <div class="hero-stats">
@@ -408,17 +441,95 @@ body.locked{overflow:hidden}
   </div>
 </div>
 
-<section id="routes">
+<!-- ===== КАТЕГОРИИ ===== -->
+<section id="cats">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">01</span><h2 class="wavy">Города</h2><span class="sec-line"></span></div>
-    <p class="sub">Нажмите на открытку — внутри варианты маршрута: на целый день, по старым улочкам или короткий экспресс.</p>
-    <div class="cards" id="grid"></div>
-    <div class="more-wrap">
-      <button class="more-btn" id="moreBtn"><span id="moreTxt">Показать ещё города</span><span class="cnt" id="moreCnt"></span></button>
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="wavy">Категории маршрутов</h2><span class="sec-line"></span></div>
+    <p class="sub">Выберите, какое настроение у вашей поездки. Нажмите «Посмотреть» — откроется список городов и вариантов.</p>
+    <div class="cat-grid">
+
+      <!-- Стандартные маршруты -->
+      <div class="cat">
+        <div class="art" style="background:linear-gradient(135deg,#2b3a6b,#4a5fa8)">
+          <div class="c-ico">🗺️</div>
+          Стандартные маршруты
+        </div>
+        <div class="body">
+          <p>Классические пешеходные прогулки по главным местам города: от кремлей и старых улиц до набережных со смотровыми. Без очередей и туристических ловушек — только то, что действительно стоит увидеть.</p>
+          <div class="tags"><span class="tag">обзорные</span><span class="tag">для всех</span><span class="tag">в любой город</span></div>
+          <div class="foot"><span class="big">15 городов · 40+ маршрутов</span><span>от 70 ₽</span></div>
+          <div class="actions">
+            <button class="btn sun" id="stdBtn">Посмотреть</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- С детьми -->
+      <div class="cat">
+        <div class="art" style="background:linear-gradient(135deg,#b07a2a,#e8a13a)">
+          <div class="c-ico">🎠</div>
+          С детьми
+        </div>
+        <div class="body">
+          <p>Семейные маршруты без марафона: короткие дистанции, остановки у фонтанов, площадок и мороженого. Внутри — детские загадки про здания и легенды, которые ребёнок захочет пересказать бабушке. Прогулка, после которой не капают, а несутся домой с историей про самого старого кота города.</p>
+          <div class="tags"><span class="tag">короткие дистанции</span><span class="tag">загадки для детей</span><span class="tag">места для отдыха</span></div>
+          <div class="foot"><span class="big">14 городов · 28 маршрутов</span><span>от 70 до 600 ₽</span></div>
+          <div class="actions">
+            <a class="btn sun" href="https://t.me/Ggeeeeeer">Запросить в Telegram</a>
+            <a class="btn" href="https://max.ru/u/f9LHodD0cOJy_Cv_Sq4Q0EkIPYHQ8mHcrpac-SOiPwfdPv_yPWw21J4kkuw">MAX</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 18+ через бары -->
+      <div class="cat">
+        <div class="art" style="background:linear-gradient(135deg,#4a2038,#8a3a6e)">
+          <div class="c-ico">🍸</div>
+          18+ через бары
+        </div>
+        <div class="body">
+          <p>Вечерние маршруты по барным кварталам: узнаете, где пили писатели и революционеры, какой коктейль изобрели в этом городе и где бармен до сих пор хранит рецепт столетней давности. Между барами — исторические точки, чтобы к третьей стопе вы уже не просто гуляли, а жили в городе. Только для взрослых, и по здравому расчёту: в маршрут встроены места, где можно и закусить.</p>
+          <div class="tags"><span class="tag">18+</span><span class="tag">вечерние</span><span class="tag">истории с привкусом</span></div>
+          <div class="foot"><span class="big">города — по запросу</span><span>цена — по запросу</span></div>
+          <div class="actions">
+            <a class="btn sun" href="https://t.me/Ggeeeeeer">Запросить в Telegram</a>
+            <a class="btn" href="https://max.ru/u/f9LHodD0cOJy_Cv_Sq4Q0EkIPYHQ8mHcrpac-SOiPwfdPv_yPWw21J4kkuw">MAX</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Романтика -->
+      <div class="cat">
+        <div class="art" style="background:linear-gradient(135deg,#a8305a,#e8558f)">
+          <div class="c-ico">🌹</div>
+          Романтика
+        </div>
+        <div class="body">
+          <p>Маршруты для двоих: тихие набережные, смотровые с лучшим закатом, мосты для замков и переулки, где никто не мешает разговаривать. В финале — уютное место с десертом и видом. Подходит для первого свидания, годовщины или предложения: скажите повод — подберу точку, где стоит встать на одно колено.</p>
+          <div class="tags"><span class="tag">для двоих</span><span class="tag">закаты</span><span class="tag">места для фото</span></div>
+          <div class="foot"><span class="big">города — по запросу</span><span>цена — по запросу</span></div>
+          <div class="actions">
+            <a class="btn sun" href="https://t.me/Ggeeeeeer">Запросить в Telegram</a>
+            <a class="btn" href="https://max.ru/u/f9LHodD0cOJy_Cv_Sq4Q0EkIPYHQ8mHcrpac-SOiPwfdPv_yPWw21J4kkuw">MAX</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Раскрывающийся список городов из «Стандартных маршрутов» -->
+    <div id="stdBlock">
+      <div class="sec-head" style="margin-top:12px"><span class="sec-num">01.1</span><h2 class="wavy">Стандартные маршруты: города</h2><span class="sec-line"></span></div>
+      <p class="sub">Нажмите на открытку — внутри варианты маршрута: на целый день, по старым улочкам или короткий экспресс.</p>
+      <div class="cards" id="grid"></div>
+      <div class="more-wrap">
+        <button class="more-btn" id="moreBtn"><span id="moreTxt">Показать ещё города</span><span class="cnt" id="moreCnt"></span></button>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- ===== МЕССЕНДЖЕРЫ ===== -->
 <section id="contact">
   <div class="wrap">
     <div class="sec-head"><span class="sec-num">✦</span><h2 class="wavy">Напишите мне в мессенджер</h2><span class="sec-line"></span></div>
@@ -440,6 +551,7 @@ body.locked{overflow:hidden}
   </div>
 </section>
 
+<!-- ===== ОТЗЫВЫ ===== -->
 <section id="reviews">
   <div class="wrap">
     <div class="sec-head"><span class="sec-num">02</span><h2 class="wavy">Отзывы путешественников</h2><span class="sec-line"></span></div>
@@ -448,11 +560,12 @@ body.locked{overflow:hidden}
   </div>
 </section>
 
+<!-- ===== ФИНАЛ ===== -->
 <section class="outro">
   <div class="wrap">
     <div class="ps">
-      <h2>Не нашли свой город?</h2>
-      <p>Назовите город и ваши предпочтения — соберу персональный маршрут по картам, панорамам и отзывам местных.</p>
+      <h2>Не нашли свой город или категорию?</h2>
+      <p>Назовите город, повод и ваши предпочтения — соберу персональный маршрут по картам, панорамам и отзывам местных.</p>
       <div class="ps-actions">
         <a class="btn sun" href="https://t.me/Ggeeeeeer">Заказать в Telegram</a>
         <a class="btn" href="https://max.ru/u/f9LHodD0cOJy_Cv_Sq4Q0EkIPYHQ8mHcrpac-SOiPwfdPv_yPWw21J4kkuw">Заказать в MAX</a>
@@ -977,6 +1090,8 @@ const mTitle = document.getElementById('mTitle');
 const mMeta = document.getElementById('mMeta');
 const mList = document.getElementById('mList');
 const revGrid = document.getElementById('revGrid');
+const stdBlock = document.getElementById('stdBlock');
+const stdBtn = document.getElementById('stdBtn');
 
 const SHOW_FIRST = 6;
 
@@ -1013,6 +1128,19 @@ if(REVIEWS.length){
     ' — опубликую ваш отзыв на сайте.</div>';
 }
 
+/* ===== Кнопка «Посмотреть» на «Стандартных маршрутах» ===== */
+let stdOpen = false;
+stdBtn.addEventListener('click', function(){
+  stdOpen = !stdOpen;
+  stdBlock.classList.toggle('show', stdOpen);
+  stdBtn.textContent = stdOpen ? 'Свернуть города' : 'Посмотреть';
+  if(stdOpen){
+    setTimeout(function(){
+      stdBlock.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 80);
+  }
+});
+
 const moreBtn = document.getElementById('moreBtn');
 const moreTxt = document.getElementById('moreTxt');
 const moreCnt = document.getElementById('moreCnt');
@@ -1046,7 +1174,7 @@ function collapseCities(){
 moreBtn.addEventListener('click', function(){
   if(expanded){
     collapseCities();
-    document.getElementById('routes').scrollIntoView({behavior:'smooth'});
+    document.getElementById('grid').scrollIntoView({behavior:'smooth'});
   } else {
     expandCities();
   }
